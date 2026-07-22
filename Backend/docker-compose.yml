@@ -3,7 +3,7 @@ services:
     image: mongo:7
     container_name: summer-mongodb
     ports:
-      - "27017:27017"
+      - "27018:27017"
     volumes:
       - mongodb_data:/data/db
     environment:
@@ -22,7 +22,7 @@ services:
     image: mongo-express:latest
     container_name: summer-mongo-express
     ports:
-      - "8081:8081"
+      - "8090:8081"
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
       ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
