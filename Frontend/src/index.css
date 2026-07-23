@@ -9,6 +9,10 @@ html {
   scrollbar-width: none;
 }
 
+* {
+  cursor: none !important;
+}
+
 html::-webkit-scrollbar {
   display: none;
 }
