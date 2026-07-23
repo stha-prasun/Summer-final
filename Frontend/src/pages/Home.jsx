@@ -4,6 +4,7 @@ import useSmoothScroll from '../hooks/useSmoothScroll';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import Featured from '../components/Featured';
+import Footer from '../components/Footer';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -17,7 +18,10 @@ const Home = () => {
 
   useEffect(() => {
     const loader = document.getElementById('loader');
-    if (!loader) return;
+    if (!loader) {
+      setReady(true);
+      return;
+    }
 
     const timer = setTimeout(() => {
       loader.style.transition = 'opacity 0.6s ease';
@@ -87,6 +91,7 @@ const Home = () => {
           </Link>
         </div>
       </section>
+      <Footer />
     </>
   );
 };

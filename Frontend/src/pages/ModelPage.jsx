@@ -1,5 +1,6 @@
 import { useEffect, lazy, Suspense } from 'react';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const ModelViewer = lazy(() => import('../components/ModelViewer'));
 
@@ -16,6 +17,7 @@ const ModelPage = () => {
       </div>}>
         <ModelViewer />
       </Suspense>
+      <Footer />
     </>
   );
 };

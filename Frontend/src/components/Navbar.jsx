@@ -2,25 +2,10 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FaGithub, FaDiscord, FaXTwitter } from 'react-icons/fa6';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        start: 'top -60',
-        onToggle: (self) => setScrolled(self.isActive),
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -38,8 +23,8 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { to: '/', label: 'Home' },
     { to: '/collection', label: 'Collection' },
+    { to: '/model', label: '3D Model' },
     { to: '/about', label: 'About' },
     { to: '/contact', label: 'Contact' },
   ];
@@ -49,11 +34,7 @@ const Navbar = () => {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-50 opacity-0 transition-all duration-700 ${
-        scrolled
-          ? 'bg-black/90 backdrop-blur-xl shadow-2xl shadow-black/40'
-          : 'bg-black/40'
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 opacity-0 bg-black/90 backdrop-blur-xl shadow-2xl shadow-black/40 transition-all duration-700"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-12">
         <div className="flex items-center justify-between h-16 md:h-20">
@@ -129,7 +110,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className={`h-[1px] bg-gradient-to-r from-transparent via-red-500/30 to-transparent transition-opacity duration-700 ${scrolled ? 'opacity-100' : 'opacity-0'}`} />
+      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/30 to-transparent opacity-100" />
     </nav>
   );
 };
