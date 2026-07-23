@@ -9,8 +9,10 @@ html {
   scrollbar-width: none;
 }
 
-* {
-  cursor: none !important;
+@media (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
 }
 
 html::-webkit-scrollbar {

@@ -1,11 +1,22 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 
 const CustomCursor = () => {
+  const [isDesktop, setIsDesktop] = useState(false);
   const cursorRef = useRef(null);
   const followerRef = useRef(null);
 
   useEffect(() => {
+    const mq = window.matchMedia('(pointer: fine)');
+    setIsDesktop(mq.matches);
+    const handler = (e) => setIsDesktop(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop) return;
+
     const cursor = cursorRef.current;
     const follower = followerRef.current;
 
@@ -31,7 +42,9 @@ const CustomCursor = () => {
       document.removeEventListener('mouseleave', hide);
       document.removeEventListener('mouseenter', show);
     };
-  }, []);
+  }, [isDesktop]);
+
+  if (!isDesktop) return null;
 
   return (
     <>
