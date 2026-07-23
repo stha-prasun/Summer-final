@@ -6,12 +6,13 @@ gsap.registerPlugin(ScrollTrigger);
 
 const TOTAL_FRAMES = 176;
 
-const Hero = () => {
+const Hero = ({ ready }) => {
   const sectionRef = useRef(null);
   const imgRef = useRef(null);
   const contentRef = useRef(null);
   const scrollHintRef = useRef(null);
   const overlayRef = useRef(null);
+  const tlRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -67,7 +68,8 @@ const Hero = () => {
       gsap.set('.hero-subtitle', { y: 40 });
       gsap.set('.hero-buttons > *', { y: 30 });
 
-      const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+      const tl = gsap.timeline({ paused: true, defaults: { ease: 'power4.out' } });
+      tlRef.current = tl;
 
       tl.to('.hero-eyebrow', { y: 0, opacity: 1, duration: 1 })
         .to('.hero-accent-line', { scaleX: 1, opacity: 1, duration: 1.2, ease: 'power3.out' }, '-=0.6')
@@ -76,8 +78,17 @@ const Hero = () => {
         .to('.hero-buttons > *', { y: 0, opacity: 1, duration: 0.8, stagger: 0.1 }, '-=0.4');
     });
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      tlRef.current = null;
+    };
   }, []);
+
+  useEffect(() => {
+    if (ready && tlRef.current) {
+      tlRef.current.play();
+    }
+  }, [ready]);
 
   return (
     <div ref={sectionRef} className="relative" style={{ height: `${TOTAL_FRAMES * 2}vh` }}>
