@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import useSmoothScroll from '../hooks/useSmoothScroll';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
+import Featured from '../components/Featured';
 
 const Home = () => {
   const [ready, setReady] = useState(false);
@@ -27,6 +28,7 @@ const Home = () => {
     <>
       <Navbar />
       <Hero ready={ready} />
+      <Featured />
     </>
   );
 };

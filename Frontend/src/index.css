@@ -5,6 +5,14 @@
   --font-body: "Inter", system-ui, sans-serif;
 }
 
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
 html.lenis {
   height: auto;
 }
