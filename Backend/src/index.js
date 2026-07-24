@@ -6,8 +6,9 @@ import connectDB from './config/database.js';
 
 const PORT = process.env.PORT || 8000;
 
-app.listen(PORT, () => {
-  connectDB();
-  logger.info(`Server running on port ${PORT}`);
-  logger.info(`Swagger docs at http://localhost:${PORT}/api/docs`);
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    logger.info(`Server running on port ${PORT}`);
+    logger.info(`Swagger docs at http://localhost:${PORT}/api/docs`);
+  });
 });
