@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { FaPaperPlane, FaEnvelope, FaPhone, FaLocationDot, FaGithub, FaDiscord, FaXTwitter } from 'react-icons/fa6';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from '../components/Navbar';
@@ -62,9 +63,14 @@ const Contact = () => {
       return;
     }
     setSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    toast.success("Message sent! We'll get back to you soon.");
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/contact`, formData);
+      toast.success("Message sent! We'll get back to you soon.");
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (err) {
+      const msg = err.response?.data?.error || 'Something went wrong. Please try again.';
+      toast.error(msg);
+    }
     setSubmitting(false);
   };
 
