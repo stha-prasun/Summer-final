@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import useSmoothScroll from '../hooks/useSmoothScroll';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import Featured from '../components/Featured';
@@ -14,7 +13,6 @@ const Home = () => {
   const [ready, setReady] = useState(false);
   const sectionRef = useRef(null);
   const contentRef = useRef(null);
-  useSmoothScroll();
 
   useEffect(() => {
     const loader = document.getElementById('loader');
