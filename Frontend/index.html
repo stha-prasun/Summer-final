@@ -4,9 +4,75 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <title>WheelsRUs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      #loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+      }
+      #loader .wheel {
+        width: 100px;
+        height: 100px;
+        animation: spin 0.8s linear infinite;
+      }
+      #loader .wheel svg {
+        width: 100%;
+        height: 100%;
+      }
+      #loader .brand {
+        font-family: 'Bebas Neue', 'Arial Black', sans-serif;
+        font-size: 28px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #fff;
+      }
+      #loader .brand span {
+        color: #dc2626;
+      }
+      #loader .sub {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 10px;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.25);
+        margin-top: -20px;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
   </head>
   <body>
+    <div id="loader">
+      <div class="wheel">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="44" fill="none" stroke="#2a2a2a" stroke-width="7" />
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#222" stroke-width="1.5" />
+          <circle cx="50" cy="50" r="33" fill="none" stroke="#dc2626" stroke-width="2.5" />
+          <g fill="#dc2626">
+            <path d="M48,43 L44,20 L56,20 L52,43 Z" />
+            <path d="M48,43 L44,20 L56,20 L52,43 Z" transform="rotate(72, 50, 50)" />
+            <path d="M48,43 L44,20 L56,20 L52,43 Z" transform="rotate(144, 50, 50)" />
+            <path d="M48,43 L44,20 L56,20 L52,43 Z" transform="rotate(216, 50, 50)" />
+            <path d="M48,43 L44,20 L56,20 L52,43 Z" transform="rotate(288, 50, 50)" />
+          </g>
+          <circle cx="50" cy="50" r="9" fill="#dc2626" />
+          <circle cx="50" cy="50" r="4" fill="#1a1a1a" />
+        </svg>
+      </div>
+      <div class="brand">Wheels<span>RUs</span></div>
+      <div class="sub">Loading</div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
