@@ -15,21 +15,7 @@ const Home = () => {
   const contentRef = useRef(null);
 
   useEffect(() => {
-    const loader = document.getElementById('loader');
-    if (!loader) {
-      setReady(true);
-      return;
-    }
-
-    const timer = setTimeout(() => {
-      loader.style.transition = 'opacity 0.6s ease';
-      loader.style.opacity = '0';
-      setTimeout(() => {
-        loader.remove();
-        setReady(true);
-      }, 600);
-    }, 6000);
-
+    const timer = setTimeout(() => setReady(true), 3600);
     return () => clearTimeout(timer);
   }, []);
 
