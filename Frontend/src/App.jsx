@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 import CustomCursor from "./components/CustomCursor";
 import useSmoothScroll from "./hooks/useSmoothScroll";
 
@@ -30,6 +31,10 @@ const App = () => {
           <Contact />
         </Suspense>
       ),
+    },
+    {
+      path: "*",
+      element: <NotFound />,
     },
   ]);
   return (
