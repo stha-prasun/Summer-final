@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import CustomCursor from "./components/CustomCursor";
 import useSmoothScroll from "./hooks/useSmoothScroll";
+import AdminLogin from "./pages/auth/AdminLogin";
 
 const ModelPage = lazy(() => import("./pages/ModelPage"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -29,6 +30,14 @@ const App = () => {
       element: (
         <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
           <Contact />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/admin/login",
+      element: (
+        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+          <AdminLogin />
         </Suspense>
       ),
     },
