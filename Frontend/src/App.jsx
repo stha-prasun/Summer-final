@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import CustomCursor from "./components/CustomCursor";
@@ -49,6 +50,7 @@ const App = () => {
   return (
     <div>
       <CustomCursor />
+      <Toaster position="top-right" toastOptions={{ style: { background: "#1a1a1a", color: "#fff", border: "1px solid rgba(255,255,255,0.1)" } }} />
       <RouterProvider router={appRouter} />
     </div>
   );
