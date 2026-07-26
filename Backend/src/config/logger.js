@@ -47,6 +47,22 @@ const logger = winston.createLogger({
         fileFormat
       ),
     }),
+    new winston.transports.File({
+      filename: 'logs/combined.json',
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json()
+      ),
+    }),
+    new winston.transports.File({
+      filename: 'logs/error.json',
+      level: 'error',
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.errors({ stack: true }),
+        winston.format.json()
+      ),
+    }),
   ],
 });
 

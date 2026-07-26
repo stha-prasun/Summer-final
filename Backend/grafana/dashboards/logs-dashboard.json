@@ -1,0 +1,60 @@
+{
+  "title": "WheelsRUs - Application Logs",
+  "tags": ["wheelsonfire", "backend"],
+  "schemaVersion": 39,
+  "version": 1,
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "panels": [
+    {
+      "title": "Log Volume",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum by(level) (count_over_time({job=\"wheelsonfire\"}[$__interval]))",
+          "legendFormat": "{{level}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "lines", "lineInterpolation": "smooth" }
+        }
+      }
+    },
+    {
+      "title": "Log Level Breakdown",
+      "type": "piechart",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum by(level) (count_over_time({job=\"wheelsonfire\"}[$__range]))"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "displayMode": "auto" }
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "error" }, "properties": [{ "id": "color", "value": { "fixed": "red" } }] },
+          { "matcher": { "id": "byName", "options": "warn" }, "properties": [{ "id": "color", "value": { "fixed": "orange" } }] },
+          { "matcher": { "id": "byName", "options": "info" }, "properties": [{ "id": "color", "value": { "fixed": "green" } }] }
+        ]
+      }
+    },
+    {
+      "title": "Recent Logs",
+      "type": "logs",
+      "gridPos": { "h": 12, "w": 24, "x": 0, "y": 8 },
+      "targets": [
+        {
+          "expr": "{job=\"wheelsonfire\"} | json | line_format \"{{.timestamp}} [{{.level}}] {{.message}}{{ if .stack }} - {{.stack}}{{ end }}\"",
+          "legendFormat": ""
+        }
+      ]
+    }
+  ]
+}

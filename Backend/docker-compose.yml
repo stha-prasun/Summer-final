@@ -40,6 +40,40 @@ services:
     depends_on:
       - mongodb
 
+  loki:
+    image: grafana/loki:latest
+    container_name: summer-loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - loki_data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: summer-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+    depends_on:
+      - loki
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: summer-promtail
+    volumes:
+      - ./promtail-config.yml:/etc/promtail/config.yml
+      - ./logs:/var/log/app
+    depends_on:
+      - loki
+
 volumes:
   mongodb_data:
   redis_data:
+  loki_data:
+  grafana_data:
