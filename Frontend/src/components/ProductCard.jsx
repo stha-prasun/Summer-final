@@ -2,7 +2,7 @@ import { useState, useRef, useCallback } from 'react';
 
 const rotations = [-1.2, 1.5, -0.8, 1.1, -0.6, 0.9, -1.4, 1.3, -0.7, 1.6, -0.5, 0.8];
 
-const ProductCard = ({ item, index, onViewDetails }) => {
+const ProductCard = ({ item, index, onViewDetails, onAddToCart }) => {
   const [hovered, setHovered] = useState(false);
   const innerRef = useRef(null);
 
@@ -102,7 +102,7 @@ const ProductCard = ({ item, index, onViewDetails }) => {
 
           <div className="mt-4 flex gap-2">
             <button
-              onClick={() => {}}
+              onClick={() => onAddToCart(item)}
               className="flex-1 font-body text-[10px] uppercase tracking-[0.35em] text-zinc-500 border border-zinc-800/60 py-3 hover:text-white hover:border-red-500/30 transition-all duration-500"
             >
               Add to Cart
