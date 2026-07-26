@@ -2,6 +2,8 @@ import streamifier from 'streamifier';
 import { Product } from './product.model.js';
 import { createProduct, applyUpdates } from './factory/product.factory.js';
 import cloudinary from '../../config/cloudinary.js';
+import { CACHE_KEYS } from './constants.js';
+import { getFromCache, setToCache, clearProductCache } from './helpers/cache.js';
 
 const uploadToCloudinary = (buffer) => {
   return new Promise((resolve, reject) => {
@@ -33,6 +35,7 @@ export const addProduct = async (data, file) => {
   }
   const product = createProduct(data);
   await product.save();
+  await clearProductCache();
   return product;
 };
 
@@ -49,6 +52,7 @@ export const updateProduct = async (id, data, file) => {
 
   applyUpdates(product, data);
   await product.save();
+  await clearProductCache();
   return product;
 };
 
@@ -58,14 +62,27 @@ export const deleteProduct = async (id) => {
 
   await deleteFromCloudinary(product.cloudinaryId);
   await Product.findByIdAndDelete(id);
+  await clearProductCache();
   return product;
 };
 
 export const getProductById = async (id) => {
-  return Product.findById(id);
+  const key = CACHE_KEYS.BY_ID(id);
+  const cached = await getFromCache(key);
+  if (cached) return cached;
+
+  const product = await Product.findById(id).lean();
+  if (product) await setToCache(key, product);
+  return product;
 };
 
 export const getAllProducts = async (category) => {
+  const key = category && category !== 'all' ? CACHE_KEYS.CATEGORY(category) : CACHE_KEYS.ALL;
+  const cached = await getFromCache(key);
+  if (cached) return cached;
+
   const filter = category && category !== 'all' ? { category } : {};
-  return Product.find(filter).sort({ createdAt: -1 });
+  const products = await Product.find(filter).sort({ createdAt: -1 }).lean();
+  await setToCache(key, products);
+  return products;
 };
