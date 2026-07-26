@@ -7,7 +7,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const links = [
-  { to: '/', label: 'Home' },
   { to: '/collection', label: 'Collection' },
   { to: '/model', label: '3D Model' },
   { to: '/about', label: 'About' },

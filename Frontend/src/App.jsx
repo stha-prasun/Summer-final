@@ -9,6 +9,7 @@ import AdminLogin from "./pages/auth/AdminLogin";
 
 const ModelPage = lazy(() => import("./pages/ModelPage"));
 const Contact = lazy(() => import("./pages/Contact"));
+const Collection = lazy(() => import("./pages/Collection"));
 
 const App = () => {
   useSmoothScroll();
@@ -23,6 +24,14 @@ const App = () => {
       element: (
         <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
           <ModelPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/collection",
+      element: (
+        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+          <Collection />
         </Suspense>
       ),
     },
