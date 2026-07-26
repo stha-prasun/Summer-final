@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { FaFire, FaCube, FaCarSide, FaGaugeHigh, FaStar, FaXmark } from 'react-icons/fa6';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import ProductCard from '../components/ProductCard';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +14,7 @@ const products = [
     price: '$6.99', category: 'muscle', badge: 'Limited',
     gradient: 'from-red-600 via-red-500 to-rose-400',
     accent: 'bg-red-500', border: 'border-red-500/20',
+    image: 'https://images.unsplash.com/photo-1584345274849-e9596d6ea12d?w=600&h=400&fit=crop&auto=format',
     description: 'The first-generation Camaro returns in Spectraflame red with Real Riders rubber tires. A true icon reborn.',
     specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: '5000 pcs' },
   },
@@ -21,6 +23,7 @@ const products = [
     price: '$6.99', category: 'originals', badge: 'New',
     gradient: 'from-purple-600 via-purple-500 to-fuchsia-400',
     accent: 'bg-purple-500', border: 'border-purple-500/20',
+    image: 'https://images.unsplash.com/photo-1758793046331-728010773dff?w=600&h=400&fit=crop&auto=format',
     description: 'The legendary twin-engine custom returns in a head-turning purple finish. Born in the \'70s, built for today.',
     specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
   },
@@ -29,6 +32,7 @@ const products = [
     price: '$6.99', category: 'originals',
     gradient: 'from-emerald-600 via-emerald-500 to-green-400',
     accent: 'bg-emerald-500', border: 'border-emerald-500/20',
+    image: 'https://images.unsplash.com/photo-1698326456873-3f748646b8c3?w=600&h=400&fit=crop&auto=format',
     description: 'Hot Wheels\' most iconic skull-faced hot rod. Emerald green Spectraflame with exposed engine detail.',
     specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
   },
@@ -37,6 +41,7 @@ const products = [
     price: '$6.99', category: 'originals',
     gradient: 'from-sky-600 via-sky-500 to-cyan-400',
     accent: 'bg-sky-500', border: 'border-sky-500/20',
+    image: 'https://images.unsplash.com/photo-1573408197181-7f6ef8ffa90a?w=600&h=400&fit=crop&auto=format',
     description: 'The surf-inspired pickup with the front-mounted cab. Sky-blue metallic with tampo graphics.',
     specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
   },
@@ -45,6 +50,7 @@ const products = [
     price: '$6.99', category: 'originals',
     gradient: 'from-amber-500 via-yellow-400 to-orange-300',
     accent: 'bg-amber-500', border: 'border-amber-500/20',
+    image: 'https://images.unsplash.com/photo-1728397385981-98a403e92431?w=600&h=400&fit=crop&auto=format',
     description: 'Classic \'57 Chevy truck in a candy amber finish. Deep-dish wheels and a tailgate that means business.',
     specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
   },
@@ -53,6 +59,7 @@ const products = [
     price: '$6.99', category: 'originals', badge: 'New',
     gradient: 'from-orange-600 via-orange-500 to-yellow-400',
     accent: 'bg-orange-500', border: 'border-orange-500/20',
+    image: 'https://images.unsplash.com/photo-1742294739692-a553654f3d7f?w=600&h=400&fit=crop&auto=format',
     description: 'The winged wedge returns. Blazing orange with bold racing stripes down the center line.',
     specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
   },
@@ -61,6 +68,7 @@ const products = [
     price: '$6.99', category: 'muscle', badge: 'Limited',
     gradient: 'from-stone-500 via-neutral-400 to-zinc-300',
     accent: 'bg-stone-500', border: 'border-stone-500/20',
+    image: 'https://images.unsplash.com/photo-1767023205813-dfa7f0f1f9ce?w=600&h=400&fit=crop&auto=format',
     description: 'The NASCAR legend with the towering rear wing. Limited-run in matte silver with vintage deco.',
     specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: '5000 pcs' },
   },
@@ -69,6 +77,7 @@ const products = [
     price: '$7.49', category: 'imports', badge: 'New',
     gradient: 'from-rose-600 via-red-500 to-pink-400',
     accent: 'bg-rose-500', border: 'border-rose-500/20',
+    image: 'https://images.unsplash.com/photo-1570984780932-9620b70dab35?w=600&h=400&fit=crop&auto=format',
     description: 'The iconic Japanese sports sedan in rose-crimson. SSR Mark II wheels and a lowered stance.',
     specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
   },
@@ -77,6 +86,7 @@ const products = [
     price: '$7.49', category: 'imports',
     gradient: 'from-yellow-500 via-amber-400 to-orange-300',
     accent: 'bg-yellow-500', border: 'border-yellow-500/20',
+    image: 'https://images.unsplash.com/photo-1762095209834-a74486e2b7be?w=600&h=400&fit=crop&auto=format',
     description: 'Golden-age JDM icon with the legendary rotary. Wide-body stance and polished Watanabe wheels.',
     specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
   },
@@ -85,6 +95,7 @@ const products = [
     price: '$7.99', category: 'exotics', badge: 'New',
     gradient: 'from-orange-600 via-orange-500 to-red-400',
     accent: 'bg-orange-500', border: 'border-orange-500/20',
+    image: 'https://images.unsplash.com/photo-1691981968241-d1b5da2443e0?w=600&h=400&fit=crop&auto=format',
     description: 'Ayrton Senna\'s namesake hypercar in lava orange. Dihedral doors and active aero in miniature.',
     specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
   },
@@ -93,6 +104,7 @@ const products = [
     price: '$7.99', category: 'exotics',
     gradient: 'from-slate-500 via-gray-400 to-zinc-300',
     accent: 'bg-slate-500', border: 'border-slate-500/20',
+    image: 'https://images.unsplash.com/photo-1749599356952-3598b7304860?w=600&h=400&fit=crop&auto=format',
     description: 'Italian artisan hypercar in polished silver. Active aero flaps and quad exhaust tips detailed.',
     specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
   },
@@ -101,6 +113,7 @@ const products = [
     price: '$6.99', category: 'muscle',
     gradient: 'from-zinc-900 via-zinc-800 to-zinc-700',
     accent: 'bg-zinc-600', border: 'border-zinc-600/20',
+    image: 'https://images.unsplash.com/photo-1573806719978-9f22b2360fad?w=600&h=400&fit=crop&auto=format',
     description: 'Modern muscle in stealth black. Wide body, racing stripes, and a supercharged hemi under the hood.',
     specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
   },
@@ -123,27 +136,11 @@ const Collection = () => {
   const detailRef = useRef(null);
   const detailInnerRef = useRef(null);
   const cardRefs = useRef([]);
-  const cardInnerRef = useRef([]);
 
   const filtered = useMemo(
     () => activeCategory === 'all' ? products : products.filter((p) => p.category === activeCategory),
     [activeCategory],
   );
-
-  const onMouseMove = useCallback((e, i) => {
-    const card = cardInnerRef.current[i];
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    card.style.setProperty('--mx', `${((e.clientX - rect.left) / rect.width) * 100}%`);
-    card.style.setProperty('--my', `${((e.clientY - rect.top) / rect.height) * 100}%`);
-  }, []);
-
-  const onMouseLeave = useCallback((i) => {
-    const el = cardInnerRef.current[i];
-    if (!el) return;
-    el.style.setProperty('--mx', '50%');
-    el.style.setProperty('--my', '50%');
-  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -253,87 +250,11 @@ const Collection = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
-            {filtered.map((item, i) => {
-              const rotations = [-1.2, 1.5, -0.8, 1.1, -0.6, 0.9, -1.4, 1.3, -0.7, 1.6, -0.5, 0.8];
-              return (
-                <div
-                  key={item.id}
-                  ref={(el) => (cardRefs.current[i] = el)}
-                  onMouseMove={(e) => onMouseMove(e, i)}
-                  onMouseLeave={() => onMouseLeave(i)}
-                  className="group cursor-default"
-                  style={{ transform: `rotate(${rotations[i % rotations.length]}deg)` }}
-                >
-                  <div
-                    ref={(el) => (cardInnerRef.current[i] = el)}
-                    className="relative bg-neutral-900/80 border border-zinc-800/60 will-change-transform"
-                    style={{
-                      background: `radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.04) 0%, rgba(9,9,11,0.95) 50%)`,
-                      transition: 'background 0.25s ease',
-                    }}
-                  >
-                    <span className="absolute -top-1.5 -left-1.5 w-3 h-3 rounded-full bg-zinc-700 shadow-inner shadow-black/60 border border-zinc-600" />
-                    <span className="absolute -top-1.5 -right-1.5 w-3 h-3 rounded-full bg-zinc-700 shadow-inner shadow-black/60 border border-zinc-600" />
-                    <span className="absolute -bottom-1.5 -left-1.5 w-3 h-3 rounded-full bg-zinc-700 shadow-inner shadow-black/60 border border-zinc-600" />
-                    <span className="absolute -bottom-1.5 -right-1.5 w-3 h-3 rounded-full bg-zinc-700 shadow-inner shadow-black/60 border border-zinc-600" />
-
-                    <div className={`h-44 md:h-52 bg-gradient-to-br ${item.gradient} relative overflow-hidden`}>
-                      <img
-                        src="/silhouette.png"
-                        alt=""
-                        aria-hidden="true"
-                        className="absolute inset-0 w-full h-full object-contain p-4 md:p-6 opacity-60 scale-x-[-1] mix-blend-overlay"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/60 to-transparent" />
-
-                      {item.badge && (
-                        <span className={`absolute top-3 right-3 font-body text-[8px] md:text-[10px] uppercase tracking-[0.25em] px-2.5 py-1 border ${item.border} text-white bg-${item.accent.replace('bg-', '').replace('500', '500/80')}`}>
-                          {item.badge}
-                        </span>
-                      )}
-
-                      <span className="absolute bottom-3 left-3 font-body text-[8px] text-white/30 uppercase tracking-[0.2em]">
-                        Ref: WHL-{String(item.id).padStart(3, '0')}
-                      </span>
-                    </div>
-
-                    <div className="p-4 md:p-5">
-                      <div className="flex items-start justify-between gap-3 mb-2">
-                        <h3 className="font-display text-xl md:text-2xl text-white uppercase tracking-tight leading-none">
-                          {item.name}
-                        </h3>
-                        <span className="font-display text-lg md:text-xl text-red-400 shrink-0">
-                          {item.price}
-                        </span>
-                      </div>
-
-                      <div className={`w-8 h-0.5 ${item.accent} mb-2.5`} />
-
-                      <div className="flex items-center gap-3 text-[10px] font-body uppercase tracking-[0.2em]">
-                        <span className="text-zinc-500">{item.series}</span>
-                        <span className="text-zinc-700">|</span>
-                        <span className="text-zinc-600">{item.year}</span>
-                      </div>
-
-                      <button
-                        onClick={() => handleViewDetails(item)}
-                        className="mt-4 w-full font-body text-[10px] uppercase tracking-[0.35em] text-zinc-500 border border-zinc-800/60 py-3 hover:text-white hover:border-red-500/30 transition-all duration-500"
-                      >
-                        View Details
-                      </button>
-                    </div>
-
-                    <div
-                      className="absolute -inset-px rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                      style={{
-                        border: `1px solid ${item.border.replace('20', '40')}`,
-                        boxShadow: `0 0 20px ${item.border.replace('/20', '/08')}`,
-                      }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+            {filtered.map((item, i) => (
+              <div key={item.id} ref={(el) => (cardRefs.current[i] = el)}>
+                <ProductCard item={item} index={i} onViewDetails={handleViewDetails} />
+              </div>
+            ))}
           </div>
 
           {filtered.length === 0 && (
@@ -359,12 +280,11 @@ const Collection = () => {
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
                   <div>
-                    <div className={`h-64 md:h-80 bg-gradient-to-br ${selectedProduct.gradient} relative overflow-hidden`}>
+                    <div className="h-64 md:h-80 bg-neutral-900 relative overflow-hidden">
                       <img
-                        src="/silhouette.png"
-                        alt=""
-                        aria-hidden="true"
-                        className="absolute inset-0 w-full h-full object-contain p-8 md:p-12 opacity-60 scale-x-[-1] mix-blend-overlay"
+                        src={selectedProduct.image}
+                        alt={selectedProduct.name}
+                        className="absolute inset-0 w-full h-full object-contain p-8 md:p-12"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/60 to-transparent" />
                       {selectedProduct.badge && (
