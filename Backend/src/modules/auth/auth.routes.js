@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login } from "./auth.controller.js";
+import { login, refresh } from "./auth.controller.js";
 
 const router = Router();
 
@@ -28,5 +28,19 @@ const router = Router();
  *         description: Invalid credentials
  */
 router.post("/admin/login", login);
+
+/**
+ * @openapi
+ * /admin/refresh:
+ *   post:
+ *     summary: Refresh access token
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: Tokens refreshed
+ *       401:
+ *         description: Invalid or expired refresh token
+ */
+router.post("/admin/refresh", refresh);
 
 export default router;
