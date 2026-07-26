@@ -4,7 +4,7 @@ const router = Router();
 
 /**
  * @openapi
- * /check:
+ * /api/v1/check:
  *   get:
  *     summary: Health check endpoint
  *     tags: [Health]

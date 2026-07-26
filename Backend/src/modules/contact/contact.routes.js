@@ -5,7 +5,7 @@ const router = Router();
 
 /**
  * @openapi
- * /contact:
+ * /api/v1/contact:
  *   post:
  *     summary: Submit a contact form message
  *     tags: [Contact]
@@ -31,6 +31,6 @@ const router = Router();
  *       400:
  *         description: Missing required fields
  */
-router.post('/contact', submit);
+router.post('/', submit);
 
 export default router;

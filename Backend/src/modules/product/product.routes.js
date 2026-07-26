@@ -16,7 +16,7 @@ const handleUpload = (req, res, next) => {
 
 /**
  * @openapi
- * /products:
+ * /api/v1/products:
  *   get:
  *     summary: List all products
  *     tags: [Products]
@@ -31,11 +31,11 @@ const handleUpload = (req, res, next) => {
  *       200:
  *         description: Product list
  */
-router.get('/products', getAllProducts);
+router.get('/', getAllProducts);
 
 /**
  * @openapi
- * /products/{id}:
+ * /api/v1/products/{id}:
  *   get:
  *     summary: Get a single product
  *     tags: [Products]
@@ -51,11 +51,11 @@ router.get('/products', getAllProducts);
  *       404:
  *         description: Product not found
  */
-router.get('/products/:id', getProduct);
+router.get('/:id', getProduct);
 
 /**
  * @openapi
- * /products:
+ * /api/v1/products:
  *   post:
  *     summary: Create a product (admin)
  *     tags: [Products]
@@ -109,11 +109,11 @@ router.get('/products/:id', getProduct);
  *       401:
  *         description: Unauthorized
  */
-router.post('/products', authenticate, handleUpload, addProduct);
+router.post('/', authenticate, handleUpload, addProduct);
 
 /**
  * @openapi
- * /products/{id}:
+ * /api/v1/products/{id}:
  *   put:
  *     summary: Update a product (admin)
  *     tags: [Products]
@@ -162,11 +162,11 @@ router.post('/products', authenticate, handleUpload, addProduct);
  *       404:
  *         description: Product not found
  */
-router.put('/products/:id', authenticate, handleUpload, updateProduct);
+router.put('/:id', authenticate, handleUpload, updateProduct);
 
 /**
  * @openapi
- * /products/{id}:
+ * /api/v1/products/{id}:
  *   delete:
  *     summary: Delete a product (admin)
  *     tags: [Products]
@@ -186,6 +186,6 @@ router.put('/products/:id', authenticate, handleUpload, updateProduct);
  *       404:
  *         description: Product not found
  */
-router.delete('/products/:id', authenticate, deleteProduct);
+router.delete('/:id', authenticate, deleteProduct);
 
 export default router;

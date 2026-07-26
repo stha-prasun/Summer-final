@@ -40,7 +40,7 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const { data } = await api.post("/admin/refresh");
+        const { data } = await api.post("/user/refresh");
         if (data.accessToken) {
           localStorage.setItem("accessToken", data.accessToken);
         }

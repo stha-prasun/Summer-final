@@ -5,7 +5,7 @@ const router = Router();
 
 /**
  * @openapi
- * /admin/login:
+ * /api/v1/user/login:
  *   post:
  *     summary: Admin login
  *     tags: [Auth]
@@ -27,11 +27,11 @@ const router = Router();
  *       400:
  *         description: Invalid credentials
  */
-router.post("/admin/login", login);
+router.post("/login", login);
 
 /**
  * @openapi
- * /admin/refresh:
+ * /api/v1/user/refresh:
  *   post:
  *     summary: Refresh access token
  *     tags: [Auth]
@@ -41,6 +41,6 @@ router.post("/admin/login", login);
  *       401:
  *         description: Invalid or expired refresh token
  */
-router.post("/admin/refresh", refresh);
+router.post("/refresh", refresh);
 
 export default router;
