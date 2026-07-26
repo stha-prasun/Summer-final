@@ -100,12 +100,20 @@ const ProductCard = ({ item, index, onViewDetails }) => {
             <span className="text-zinc-600">{item.year}</span>
           </div>
 
-          <button
-            onClick={() => onViewDetails(item)}
-            className="mt-4 w-full font-body text-[10px] uppercase tracking-[0.35em] text-zinc-500 border border-zinc-800/60 py-3 hover:text-white hover:border-red-500/30 transition-all duration-500"
-          >
-            View Details
-          </button>
+          <div className="mt-4 flex gap-2">
+            <button
+              onClick={() => {}}
+              className="flex-1 font-body text-[10px] uppercase tracking-[0.35em] text-zinc-500 border border-zinc-800/60 py-3 hover:text-white hover:border-red-500/30 transition-all duration-500"
+            >
+              Add to Cart
+            </button>
+            <button
+              onClick={() => onViewDetails(item)}
+              className="flex-1 font-body text-[10px] uppercase tracking-[0.35em] text-white bg-red-500 border border-red-500 py-3 hover:bg-red-600 transition-all duration-500"
+            >
+              Buy Now
+            </button>
+          </div>
         </div>
 
         <div

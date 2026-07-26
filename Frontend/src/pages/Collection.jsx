@@ -323,6 +323,21 @@ const Collection = () => {
                         </div>
                       ))}
                     </div>
+
+                    <div className="detail-stagger flex gap-3 mt-6">
+                      <button
+                        onClick={() => {}}
+                        className="flex-1 font-body text-[11px] md:text-xs uppercase tracking-[0.35em] text-zinc-500 border border-zinc-800/60 py-3 md:py-4 hover:text-white hover:border-red-500/30 transition-all duration-500"
+                      >
+                        Add to Cart
+                      </button>
+                      <button
+                        onClick={() => {}}
+                        className="flex-1 font-body text-[11px] md:text-xs uppercase tracking-[0.35em] text-white bg-red-500 border border-red-500 py-3 md:py-4 hover:bg-red-600 transition-all duration-500"
+                      >
+                        Buy Now
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
