@@ -6,9 +6,12 @@ import NotFound from "./pages/NotFound";
 import CustomCursor from "./components/CustomCursor";
 import useSmoothScroll from "./hooks/useSmoothScroll";
 import AdminLogin from "./pages/auth/AdminLogin";
+import AdminDashboard from "./pages/Admin/Dashboard/AdminDashboard"
+import AddProductPage from "./pages/Admin/Dashboard/AddProducts";
 
 const ModelPage = lazy(() => import("./pages/ModelPage"));
 const Contact = lazy(() => import("./pages/Contact"));
+const Collection = lazy(() => import("./pages/Collection"));
 
 const App = () => {
   useSmoothScroll();
@@ -27,6 +30,14 @@ const App = () => {
       ),
     },
     {
+      path: "/collection",
+      element: (
+        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+          <Collection />
+        </Suspense>
+      ),
+    },
+    {
       path: "/contact",
       element: (
         <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
@@ -39,6 +50,22 @@ const App = () => {
       element: (
         <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
           <AdminLogin />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/admin/dashboard",
+      element: (
+        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+          <AdminDashboard />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/admin/add-products",
+      element: (
+        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+          <AddProductPage />
         </Suspense>
       ),
     },

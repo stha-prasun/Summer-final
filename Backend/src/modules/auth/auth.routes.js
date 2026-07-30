@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { login } from "./auth.controller.js";
+import { login, refresh } from "./auth.controller.js";
 
 const router = Router();
 
 /**
  * @openapi
- * /admin/login:
+ * /api/v1/user/login:
  *   post:
  *     summary: Admin login
  *     tags: [Auth]
@@ -27,6 +27,20 @@ const router = Router();
  *       400:
  *         description: Invalid credentials
  */
-router.post("/admin/login", login);
+router.post("/login", login);
+
+/**
+ * @openapi
+ * /api/v1/user/refresh:
+ *   post:
+ *     summary: Refresh access token
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: Tokens refreshed
+ *       401:
+ *         description: Invalid or expired refresh token
+ */
+router.post("/refresh", refresh);
 
 export default router;

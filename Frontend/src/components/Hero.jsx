@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -7,6 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 const TOTAL_FRAMES = 176;
 
 const Hero = ({ ready }) => {
+  const navigate = useNavigate();
   const sectionRef = useRef(null);
   const imgRef = useRef(null);
   const contentRef = useRef(null);
@@ -128,7 +130,10 @@ const Hero = ({ ready }) => {
           </p>
 
           <div className="hero-buttons flex flex-col sm:flex-row gap-4 mt-10">
-            <button className="opacity-0 group relative px-10 py-3.5 md:px-14 md:py-4 bg-red-600 hover:bg-red-500 rounded-none text-sm md:text-base font-semibold cursor-pointer uppercase tracking-[0.2em] transition-all duration-300 overflow-hidden">
+            <button
+              onClick={() => navigate('/collection')}
+              className="opacity-0 group relative px-10 py-3.5 md:px-14 md:py-4 bg-red-600 hover:bg-red-500 rounded-none text-sm md:text-base font-semibold cursor-pointer uppercase tracking-[0.2em] transition-all duration-300 overflow-hidden"
+            >
               <span className="relative z-10">
                 Explore Collection
               </span>

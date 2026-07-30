@@ -7,6 +7,14 @@ import logger, { requestLogger } from './config/logger.js';
 import healthRoutes from './modules/health/health.routes.js';
 import contactRoutes from './modules/contact/contact.routes.js';
 import authRoutes from './modules/auth/auth.routes.js';
+import productRoutes from './modules/product/product.routes.js';
+
+import { Router } from 'express';
+const apiRouter = Router();
+apiRouter.use('/', healthRoutes);
+apiRouter.use('/contact', contactRoutes);
+apiRouter.use('/user', authRoutes);
+apiRouter.use('/products', productRoutes);
 
 const app = express();
 
@@ -24,8 +32,6 @@ app.use(requestLogger);
 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use(healthRoutes);
-app.use(contactRoutes);
-app.use(authRoutes);
+app.use('/api/v1', apiRouter);
 
 export { app, logger };
