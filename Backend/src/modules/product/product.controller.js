@@ -11,6 +11,10 @@ export const addProduct = async (req, res) => {
       });
     }
 
+    if (typeof req.body.specs === "string") {
+      try { req.body.specs = JSON.parse(req.body.specs); } catch (e) {}
+    }
+
     const product = await productService.addProduct(req.body, req.file);
 
     return res.status(201).json({

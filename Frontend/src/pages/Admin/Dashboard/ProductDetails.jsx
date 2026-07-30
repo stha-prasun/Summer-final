@@ -1,3 +1,6 @@
+import api from "../../../services/api";
+import toast from "react-hot-toast";
+
 import {
   Card,
   Label,
@@ -25,6 +28,17 @@ import {
   ACCENT,
 } from "../../../components/AdminComponents/Theme";
 
+const GRADIENT_PRESETS = [
+  { label: "Red Flame", value: "linear-gradient(135deg,#e8291c,#f2b705)" },
+  { label: "Purple Haze", value: "linear-gradient(135deg,#7c3aed,#a78bfa)" },
+  { label: "Ocean Blue", value: "linear-gradient(135deg,#1d4ed8,#38bdf8)" },
+  { label: "Emerald", value: "linear-gradient(135deg,#059669,#34d399)" },
+  { label: "Sunset", value: "linear-gradient(135deg,#f97316,#fbbf24)" },
+  { label: "Midnight", value: "linear-gradient(135deg,#1e1b4b,#6366f1)" },
+  { label: "Rose", value: "linear-gradient(135deg,#e11d48,#fb7185)" },
+  { label: "Steel", value: "linear-gradient(135deg,#374151,#9ca3af)" },
+];
+
 export function ProductDetails() {
      const CATEGORY_OPTIONS = [
     { value: "muscle", label: "Muscle" },
@@ -43,7 +57,10 @@ export function ProductDetails() {
     // optional - main section
     badge: "",
     description: "",
-    specs: "",
+    scale: "",
+    material: "",
+    tampo: "",
+    limited: "",
     // optional - thumbnail card
     image: "",
     // optional - product details card
@@ -52,6 +69,7 @@ export function ProductDetails() {
     border: "",
   };
   const [form, setForm] = useState(initialState);
+  const [preview, setPreview] = useState(null);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -62,14 +80,42 @@ export function ProductDetails() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      setForm((f) => ({ ...f, image: reader.result }));
-    };
-    reader.readAsDataURL(file);
+    if (preview) URL.revokeObjectURL(preview);
+    setPreview(URL.createObjectURL(file));
+    setForm((f) => ({ ...f, image: file }));
   };
 
- 
+  const handleSubmit = async () => {
+    const fd = new FormData();
+    fd.append("name", form.name);
+    fd.append("series", form.series);
+    fd.append("year", form.year);
+    fd.append("price", form.price);
+    fd.append("category", form.category);
+    if (form.badge) fd.append("badge", form.badge);
+    if (form.description) fd.append("description", form.description);
+    if (form.gradient) fd.append("gradient", form.gradient);
+    if (form.accent) fd.append("accent", form.accent);
+    if (form.border) fd.append("border", form.border);
+    if (form.image) fd.append("image", form.image);
+
+    const specs = {};
+    if (form.scale) specs.scale = form.scale;
+    if (form.material) specs.material = form.material;
+    if (form.tampo) specs.tampo = form.tampo;
+    if (form.limited) specs.limited = form.limited;
+    if (Object.keys(specs).length) fd.append("specs", JSON.stringify(specs));
+
+    try {
+      const { data } = await api.post("/products", fd);
+      toast.success(data.message || "Product added successfully");
+      navigate("/admin/dashboard");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to add product");
+    }
+  };
+
+  
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -153,11 +199,27 @@ export function ProductDetails() {
 
             <div>
               <Label>Badge</Label>
-              <TextInput
-                value={form.badge}
-                onChange={set("badge")}
-                placeholder="e.g. NEW, LIMITED"
-              />
+              <div className="relative">
+                <select
+                  value={form.badge}
+                  onChange={set("badge")}
+                  className="w-full px-3.5 py-2.5 rounded-xl text-sm outline-none appearance-none"
+                  style={{
+                    border: `1px solid ${CARD_BORDER}`,
+                    background: INPUT_BG,
+                    color: form.badge ? "#f5f5f5" : TEXT_MUTED,
+                  }}
+                >
+                  <option value="">None</option>
+                  <option value="New">New</option>
+                  <option value="Limited">Limited</option>
+                </select>
+                <ChevronDown
+                  size={15}
+                  className="absolute right-3 top-3"
+                  style={{ color: TEXT_MUTED, pointerEvents: "none" }}
+                />
+              </div>
               <HelpText>Optional tag shown on the product card.</HelpText>
             </div>
           </Card>
@@ -173,15 +235,39 @@ export function ProductDetails() {
               />
               <HelpText>Optional. Shown on the product detail page.</HelpText>
             </div>
-            <div>
-              <Label>Specs</Label>
-              <TextArea
-                value={form.specs}
-                onChange={set("specs")}
-                placeholder="e.g. scale: 1:64, wheelType: Real Riders, color: Spectraflame Red"
-                rows={3}
-              />
-              <HelpText>Optional. Key details about the casting.</HelpText>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label>Scale</Label>
+                <TextInput
+                  value={form.scale}
+                  onChange={set("scale")}
+                  placeholder="e.g. 1:64"
+                />
+              </div>
+              <div>
+                <Label>Material</Label>
+                <TextInput
+                  value={form.material}
+                  onChange={set("material")}
+                  placeholder="e.g. Die-cast"
+                />
+              </div>
+              <div>
+                <Label>Tampo</Label>
+                <TextInput
+                  value={form.tampo}
+                  onChange={set("tampo")}
+                  placeholder="e.g. Full"
+                />
+              </div>
+              <div>
+                <Label>Limited</Label>
+                <TextInput
+                  value={form.limited}
+                  onChange={set("limited")}
+                  placeholder="e.g. 5000 pcs"
+                />
+              </div>
             </div>
           </Card>
 
@@ -189,7 +275,7 @@ export function ProductDetails() {
           <div className="flex items-center gap-3">
             <button
               type="button"
-              onClick={() => navigate("/admin/dashboard")}
+              onClick={handleSubmit}
               className="px-5 py-2 rounded-lg text-sm font-semibold text-white transition-transform duration-150 hover:scale-[1.03] hover:brightness-110 active:scale-[0.98]"
               style={{ background: PRIMARY_GRADIENT }}
             >
@@ -230,9 +316,9 @@ export function ProductDetails() {
                 height: 160,
               }}
             >
-              {form.image ? (
+              {preview ? (
                 <img
-                  src={form.image}
+                  src={preview}
                   alt="preview"
                   className="max-h-full max-w-full rounded-lg object-cover"
                 />
@@ -254,6 +340,27 @@ export function ProductDetails() {
           <Card title="Product Details" icon={Palette}>
             <div>
               <Label>Gradient</Label>
+              <div
+                className="h-10 rounded-xl mb-2"
+                style={{
+                  background: form.gradient || "linear-gradient(135deg,#1b1e2e,#12141f)",
+                  border: `1px solid ${CARD_BORDER}`,
+                }}
+              />
+              <div className="flex gap-2 mb-2 flex-wrap">
+                {GRADIENT_PRESETS.map((g) => (
+                  <div
+                    key={g.value}
+                    onClick={() => setForm((f) => ({ ...f, gradient: g.value }))}
+                    className="w-8 h-8 rounded-lg cursor-pointer border-2 transition-all duration-150 hover:scale-110"
+                    style={{
+                      background: g.value,
+                      borderColor: form.gradient === g.value ? ACCENT : "transparent",
+                    }}
+                    title={g.label}
+                  />
+                ))}
+              </div>
               <TextInput
                 value={form.gradient}
                 onChange={set("gradient")}
