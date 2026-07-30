@@ -4,6 +4,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
 } from "./user.token.js";
+import { createUser } from "./factory/user.factory.js";
 
 export const signup = async ({ name, email, password, phone, address }) => {
   const existing = await User.findOne({ email });
@@ -14,13 +15,8 @@ export const signup = async ({ name, email, password, phone, address }) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = await User.create({
-    name,
-    email,
-    password: hashedPassword,
-    phone,
-    address,
-  });
+  const user = createUser({ name, email, password: hashedPassword, phone, address });
+  await user.save();
 
   return {
     _id: user._id,
