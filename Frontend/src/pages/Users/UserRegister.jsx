@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function UserRegister() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,11 +16,11 @@ export function UserRegister() {
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-[#0b0b0b] text-white">
       {/* Left Pane: Form Section */}
-      <div className="flex flex-1 flex-col justify-between bg-white px-16 py-10 text-neutral-900 overflow-y-auto">
+      <div className="flex flex-1 flex-col justify-between bg-white px-16 py-10 text-neutral-900">
         <div className="w-full max-w-[420px] mx-auto my-auto">
           {/* Brand Logo */}
           <div className="mb-8">
-            <span className="text-2xl font-black tracking-widest text-[#e50914]">WHEELSRUS</span>
+            <button type="button" onClick={() => navigate('/')} className="text-2xl font-black tracking-widest text-[#e50914]">WHEELSRUS</button>
           </div>
 
           {/* Welcome Header */}
@@ -28,16 +30,13 @@ export function UserRegister() {
             </h2>
             <p className="text-sm text-neutral-600">
               Already have an account?{' '}
-              <a
-                href="#login"
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert('Navigate to Login Page');
-                }}
+              <button
+                type="button"
+                onClick={() => navigate('/login')}
                 className="font-semibold text-[#e50914] hover:underline focus:outline-none"
               >
                 Log in
-              </a>
+              </button>
             </p>
           </div>
 
@@ -107,15 +106,21 @@ export function UserRegister() {
           <button
             type="button"
             onClick={() => alert('SSO Authentication Triggered')}
-            className="w-full bg-neutral-100 hover:bg-neutral-200 text-neutral-800 font-semibold py-3 rounded-lg border border-neutral-300 transition-colors text-sm"
+            className="w-full bg-neutral-100 hover:bg-neutral-200 text-neutral-800 font-semibold py-3 rounded-lg border border-neutral-300 transition-colors text-sm flex items-center justify-center gap-3"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className="w-5 h-5">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M10.53 28.59A14.5 14.5 0 0 1 9.5 24c0-1.59.28-3.14.76-4.59l-7.98-6.19A23.99 23.99 0 0 0 0 24c0 3.77.87 7.35 2.56 10.56l7.97-5.97z"/>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 5.97C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
             Continue with Google
           </button>
         </div>
 
         {/* Footer */}
         <div className="flex justify-between items-center text-xs text-neutral-400 border-t border-neutral-100 pt-5">
-          <span>WHEELSRUS Desktop Client</span>
+          <span>WHEELSRUS</span>
           <span className="font-semibold text-neutral-600">Unleash the Need for Speed</span>
         </div>
       </div>
