@@ -9,6 +9,7 @@ import AdminLogin from "./pages/auth/AdminLogin";
 import AdminDashboard from "./pages/Admin/Dashboard/AdminDashboard"
 import AddProductPage from "./pages/Admin/Dashboard/AddProducts";
 import { UserLogin } from "./pages/Users/UserLogin";
+import { UserRegister } from "./pages/Users/UserRegister";
 
 const ModelPage = lazy(() => import("./pages/ModelPage"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -75,6 +76,14 @@ const App = () => {
       element: (
         <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
           <UserLogin />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/register",
+      element: (
+        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+          <UserRegister/>
         </Suspense>
       ),
     },
