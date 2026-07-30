@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { FaGithub, FaDiscord, FaXTwitter } from 'react-icons/fa6';
+import { FiShoppingCart, FiGrid } from 'react-icons/fi';
 import gsap from 'gsap';
 
 const Navbar = () => {
+  const user = useSelector((state) => state.User?.loggedInUser);
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef(null);
 
@@ -60,6 +63,17 @@ const Navbar = () => {
 
           <div className="flex items-center gap-2 md:gap-3">
             <div className="hidden md:flex items-center gap-3">
+              {user && (
+                <>
+                  <Link to="/cart" aria-label="Cart" className={iconClass}>
+                    <FiShoppingCart size={16} />
+                  </Link>
+                  <Link to="/user/dashboard" aria-label="Dashboard" className={iconClass}>
+                    <FiGrid size={16} />
+                  </Link>
+                  <span className="w-px h-4 bg-zinc-700" />
+                </>
+              )}
               <a href="#" aria-label="GitHub" className={iconClass}>
                 <FaGithub size={14} />
               </a>

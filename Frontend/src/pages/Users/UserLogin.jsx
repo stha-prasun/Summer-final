@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setLoggedInUser } from '../../redux/userSlice';
 import toast from 'react-hot-toast';
 import api from '../../services/api';
 
 export function UserLogin() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,6 +20,7 @@ export function UserLogin() {
       const { data } = await api.post('/user/login', { email, password });
       if (data.success) {
         localStorage.setItem('accessToken', data.accessToken);
+        dispatch(setLoggedInUser(data.loggedInUser));
         toast.success(data.message);
         navigate('/');
       }

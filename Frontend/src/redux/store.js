@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import adminSlice from "./adminSlice.js";
 import cartReducer from "./cartSlice.js";
+import userSlice from "./userSlice.js";
 
 const storage = {
   getItem: (key) => Promise.resolve(localStorage.getItem(key)),
@@ -12,6 +13,7 @@ const storage = {
 const rootReducer = combineReducers({
   Admin: adminSlice,
   Cart: cartReducer,
+  User: userSlice,
 });
 
 const persistConfig = {
