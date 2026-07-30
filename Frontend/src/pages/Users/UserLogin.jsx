@@ -1,15 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import api from '../../services/api';
 
 export function UserLogin() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Logging in with Email: ${email}`);
+    setLoading(true);
+    try {
+      const { data } = await api.post('/user/login', { email, password });
+      if (data.success) {
+        localStorage.setItem('accessToken', data.accessToken);
+        toast.success(data.message);
+        navigate('/');
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Login failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -76,9 +91,10 @@ export function UserLogin() {
 
             <button
               type="submit"
-              className="w-full mt-2 bg-[#e50914] hover:bg-[#b80710] text-white font-bold py-3.5 rounded-lg transition-colors shadow-lg shadow-red-600/20"
+              disabled={loading}
+              className="w-full mt-2 bg-[#e50914] hover:bg-[#b80710] text-white font-bold py-3.5 rounded-lg transition-colors shadow-lg shadow-red-600/20 disabled:opacity-60"
             >
-              Log In
+              {loading ? 'Signing in...' : 'Log In'}
             </button>
           </form>
 

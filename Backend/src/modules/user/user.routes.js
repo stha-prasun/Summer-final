@@ -15,7 +15,7 @@ const router = Router();
  *         application/json:
  *           schema:
  *             type: object
- *             required: [name, email, password]
+ *             required: [name, email, password, phone]
  *             properties:
  *               name:
  *                 type: string
@@ -23,9 +23,25 @@ const router = Router();
  *                 type: string
  *               password:
  *                 type: string
+ *               phone:
+ *                 type: string
+ *               address:
+ *                 type: object
+ *                 required: [street, city, state, zip, country]
+ *                 properties:
+ *                   street:
+ *                     type: string
+ *                   city:
+ *                     type: string
+ *                   state:
+ *                     type: string
+ *                   zip:
+ *                     type: string
+ *                   country:
+ *                     type: string
  *     responses:
  *       201:
- *         description: User created successfully
+ *         description: Account created successfully
  *       400:
  *         description: Validation error
  */

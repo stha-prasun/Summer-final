@@ -10,7 +10,7 @@ export function UserRegister() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Registering user ${name} with Email: ${email}`);
+    navigate('/onboarding', { state: { name, email, password } });
   };
 
   return (

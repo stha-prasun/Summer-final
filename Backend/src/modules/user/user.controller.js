@@ -4,19 +4,19 @@ const COOKIE_OPTIONS = { httpOnly: true, sameSite: "strict" };
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone, address } = req.body;
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !phone || !address?.street || !address?.city || !address?.state || !address?.zip || !address?.country) {
       return res.status(400).json({
-        message: "Fields cannot be left empty",
+        message: "All fields are required",
         success: false,
       });
     }
 
-    const user = await signup({ name, email, password });
+    const user = await signup({ name, email, password, phone, address });
 
     res.status(201).json({
-      message: "User created successfully",
+      message: "Account created successfully!",
       success: true,
       user,
     });

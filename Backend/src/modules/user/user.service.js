@@ -5,7 +5,7 @@ import {
   generateRefreshToken,
 } from "./user.token.js";
 
-export const signup = async ({ name, email, password }) => {
+export const signup = async ({ name, email, password, phone, address }) => {
   const existing = await User.findOne({ email });
 
   if (existing) {
@@ -18,6 +18,8 @@ export const signup = async ({ name, email, password }) => {
     name,
     email,
     password: hashedPassword,
+    phone,
+    address,
   });
 
   return {
@@ -51,6 +53,8 @@ export const login = async ({ email, password }) => {
     _id: userID,
     name: user.name,
     email: user.email,
+    phone: user.phone,
+    address: user.address,
   };
 
   return { accessToken, refreshToken, loggedInUser };
