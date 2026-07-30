@@ -8,6 +8,7 @@ import useSmoothScroll from "./hooks/useSmoothScroll";
 import AdminLogin from "./pages/auth/AdminLogin";
 import AdminDashboard from "./pages/Admin/Dashboard/AdminDashboard"
 import AddProductPage from "./pages/Admin/Dashboard/AddProducts";
+import { UserLogin } from "./pages/Users/UserLogin";
 
 const ModelPage = lazy(() => import("./pages/ModelPage"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -66,6 +67,14 @@ const App = () => {
       element: (
         <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
           <AddProductPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/login",
+      element: (
+        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+          <UserLogin />
         </Suspense>
       ),
     },
