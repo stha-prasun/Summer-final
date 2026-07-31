@@ -16,6 +16,10 @@ const processQueue = (error) => {
   failedQueue = [];
 };
 
+const isAdminRequest = (config) => config.url?.startsWith("/admin");
+const getRefreshEndpoint = (config) => (isAdminRequest(config) ? "/admin/refresh" : "/user/refresh");
+const getLoginRedirect = (config) => (isAdminRequest(config) ? "/admin/login" : "/login");
+
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
   if (token) {
@@ -29,7 +33,11 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url?.includes("/refresh")
+    ) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -40,7 +48,7 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const { data } = await api.post("/admin/refresh");
+        const { data } = await api.post(getRefreshEndpoint(originalRequest));
         if (data.accessToken) {
           localStorage.setItem("accessToken", data.accessToken);
         }
@@ -49,7 +57,7 @@ api.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError);
         localStorage.removeItem("accessToken");
-        window.location.href = "/admin/login";
+        window.location.href = getLoginRedirect(originalRequest);
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
