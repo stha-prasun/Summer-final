@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FaGithub, FaDiscord, FaXTwitter } from 'react-icons/fa6';
-import { FiShoppingCart, FiGrid } from 'react-icons/fi';
+import { FiShoppingCart, FiGrid, FiUser } from 'react-icons/fi';
 import gsap from 'gsap';
 
 const Navbar = () => {
@@ -63,17 +63,19 @@ const Navbar = () => {
 
           <div className="flex items-center gap-2 md:gap-3">
             <div className="hidden md:flex items-center gap-3">
-              {user && (
-                <>
-                  <Link to="/cart" aria-label="Cart" className={iconClass}>
-                    <FiShoppingCart size={16} />
-                  </Link>
-                  <Link to="/user/dashboard" aria-label="Dashboard" className={iconClass}>
-                    <FiGrid size={16} />
-                  </Link>
-                  <span className="w-px h-4 bg-zinc-700" />
-                </>
+              <Link to="/cart" aria-label="Cart" className={iconClass}>
+                <FiShoppingCart size={16} />
+              </Link>
+              {user ? (
+                <Link to="/user/dashboard" aria-label="Dashboard" className={iconClass}>
+                  <FiGrid size={16} />
+                </Link>
+              ) : (
+                <Link to="/login" aria-label="Login" className={iconClass}>
+                  <FiUser size={16} />
+                </Link>
               )}
+              <span className="w-px h-4 bg-zinc-700" />
               <a href="#" aria-label="GitHub" className={iconClass}>
                 <FaGithub size={14} />
               </a>
@@ -109,16 +111,50 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
-            <div className="flex gap-4 pt-3 border-t border-white/[0.04] mt-3">
-              <a href="#" aria-label="GitHub" className="text-zinc-500 hover:text-white transition-colors">
-                <FaGithub size={16} />
-              </a>
-              <a href="#" aria-label="Discord" className="text-zinc-500 hover:text-white transition-colors">
-                <FaDiscord size={16} />
-              </a>
-              <a href="#" aria-label="X" className="text-zinc-500 hover:text-white transition-colors">
-                <FaXTwitter size={16} />
-              </a>
+            <div className="flex items-center justify-between pt-3 border-t border-white/[0.04] mt-3">
+              <div className="flex items-center gap-6">
+                {user ? (
+                  <Link
+                    to="/user/dashboard"
+                    onClick={() => setMenuOpen(false)}
+                    aria-label="Dashboard"
+                    className="text-zinc-400 hover:text-white transition-colors flex flex-col items-center gap-1"
+                  >
+                    <FiGrid size={18} />
+                    <span className="text-[10px] uppercase tracking-widest">Dashboard</span>
+                  </Link>
+                ) : (
+                  <Link
+                    to="/login"
+                    onClick={() => setMenuOpen(false)}
+                    aria-label="Login"
+                    className="text-zinc-400 hover:text-white transition-colors flex flex-col items-center gap-1"
+                  >
+                    <FiUser size={18} />
+                    <span className="text-[10px] uppercase tracking-widest">Login</span>
+                  </Link>
+                )}
+                <Link
+                  to="/cart"
+                  onClick={() => setMenuOpen(false)}
+                  aria-label="Cart"
+                  className="text-zinc-400 hover:text-white transition-colors flex flex-col items-center gap-1"
+                >
+                  <FiShoppingCart size={18} />
+                  <span className="text-[10px] uppercase tracking-widest">Cart</span>
+                </Link>
+              </div>
+              <div className="flex items-center gap-4">
+                <a href="#" aria-label="GitHub" className="text-zinc-500 hover:text-white transition-colors">
+                  <FaGithub size={16} />
+                </a>
+                <a href="#" aria-label="Discord" className="text-zinc-500 hover:text-white transition-colors">
+                  <FaDiscord size={16} />
+                </a>
+                <a href="#" aria-label="X" className="text-zinc-500 hover:text-white transition-colors">
+                  <FaXTwitter size={16} />
+                </a>
+              </div>
             </div>
           </div>
         </div>
