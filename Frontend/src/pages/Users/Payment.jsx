@@ -1,13 +1,17 @@
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, Link } from 'react-router-dom';
-import { FiShoppingBag, FiCreditCard } from 'react-icons/fi';
+import { FiShoppingBag, FiCreditCard, FiLoader } from 'react-icons/fi';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { parsePrice, formatPrice } from '../../utils/price';
+import api from '../../services/api';
 
 export function Payment() {
   const user = useSelector((state) => state.User?.loggedInUser);
   const items = useSelector((state) => state.Cart.items);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   if (!user) {
     return <Navigate to="/login" replace />;
@@ -17,6 +21,30 @@ export function Payment() {
     (sum, item) => sum + parsePrice(item.product.price) * item.quantity,
     0
   );
+
+  const handlePay = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { data } = await api.post('/payment/initiate', {
+        items: items.map((item) => ({
+          productId: item.product._id,
+          quantity: item.quantity,
+        })),
+        customer: { name: user.name, email: user.email, phone: user.phone },
+      });
+
+      if (data.success && data.payment_url) {
+        window.location.href = data.payment_url;
+      } else {
+        setError(data.message || 'Failed to initiate payment');
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to initiate payment');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (items.length === 0) {
     return (
@@ -94,9 +122,23 @@ export function Payment() {
                 </span>
               </div>
 
-              <button className="w-full mt-6 bg-[#5c2d91] hover:bg-[#4a2474] text-white font-bold py-3.5 rounded-lg transition-colors text-sm">
-                Pay with Khalti
+              <button
+                onClick={handlePay}
+                disabled={loading || total < 10}
+                className="w-full mt-6 bg-[#5c2d91] hover:bg-[#4a2474] text-white font-bold py-3.5 rounded-lg transition-colors text-sm disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <>
+                    <FiLoader className="animate-spin" size={16} />
+                    Redirecting to Khalti...
+                  </>
+                ) : (
+                  'Pay with Khalti'
+                )}
               </button>
+              {error && (
+                <p className="text-red-400 text-xs text-center mt-4">{error}</p>
+              )}
               <p className="text-zinc-600 text-xs text-center mt-4">
                 Payments are processed securely by Khalti
               </p>

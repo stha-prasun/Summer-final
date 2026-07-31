@@ -9,6 +9,7 @@ import contactRoutes from './modules/contact/contact.routes.js';
 import authRoutes from './modules/auth/auth.routes.js';
 import productRoutes from './modules/product/product.routes.js';
 import userRoutes from './modules/user/user.routes.js';
+import paymentRoutes from './modules/payment/payment.routes.js';
 
 import { Router } from 'express';
 const apiRouter = Router();
@@ -17,6 +18,7 @@ apiRouter.use('/contact', contactRoutes);
 apiRouter.use('/admin', authRoutes);
 apiRouter.use('/user', userRoutes);
 apiRouter.use('/products', productRoutes);
+apiRouter.use('/payment', paymentRoutes);
 
 const app = express();
 
