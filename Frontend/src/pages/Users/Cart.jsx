@@ -1,14 +1,16 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiTrash2, FiMinus, FiPlus, FiShoppingBag } from 'react-icons/fi';
 import { updateQuantity, removeFromCart, clearCart } from '../../redux/cartSlice';
+import { parsePrice, formatPrice } from '../../utils/price';
 
 export function Cart() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const items = useSelector((state) => state.Cart.items);
 
   const total = items.reduce(
-    (sum, item) => sum + parseFloat(item.product.price?.replace(/[^0-9.]/g, '') || 0) * item.quantity,
+    (sum, item) => sum + parsePrice(item.product.price) * item.quantity,
     0
   );
 
@@ -60,7 +62,7 @@ export function Cart() {
                   {item.product.name}
                 </h3>
                 <p className="text-zinc-500 text-xs mt-0.5">
-                  ${parseFloat(item.product.price?.replace(/[^0-9.]/g, '') || 0).toFixed(2)}
+                  Rs. {formatPrice(parsePrice(item.product.price))}
                 </p>
 
                 <div className="flex items-center gap-3 mt-3">
@@ -107,7 +109,7 @@ export function Cart() {
 
               <div className="text-right flex-shrink-0">
                 <p className="text-white font-semibold text-sm">
-                  ${(parseFloat(item.product.price?.replace(/[^0-9.]/g, '') || 0) * item.quantity).toFixed(2)}
+                  Rs. {formatPrice(parsePrice(item.product.price) * item.quantity)}
                 </p>
               </div>
             </div>
@@ -117,9 +119,12 @@ export function Cart() {
         <div className="mt-8 border-t border-white/10 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <p className="text-zinc-500 text-xs uppercase tracking-widest">Total</p>
-            <p className="text-white text-2xl font-bold">${total.toFixed(2)}</p>
+            <p className="text-white text-2xl font-bold">Rs. {formatPrice(total)}</p>
           </div>
-          <button className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors text-sm">
+          <button
+            onClick={() => navigate('/payment')}
+            className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors text-sm"
+          >
             Proceed to Checkout
           </button>
         </div>

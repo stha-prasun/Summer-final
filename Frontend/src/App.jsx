@@ -12,6 +12,7 @@ import { UserLogin } from "./pages/Users/UserLogin";
 import { UserRegister } from "./pages/Users/UserRegister";
 import { Onboarding } from "./pages/Users/Onboarding";
 import { Cart } from "./pages/Users/Cart";
+import { Payment } from "./pages/Users/Payment";
 
 const ModelPage = lazy(() => import("./pages/ModelPage"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -102,6 +103,14 @@ const App = () => {
       element: (
         <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
           <Cart />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/payment",
+      element: (
+        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+          <Payment />
         </Suspense>
       ),
     },

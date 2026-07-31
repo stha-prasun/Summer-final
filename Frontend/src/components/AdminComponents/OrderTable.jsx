@@ -8,11 +8,11 @@ import {
 
 export function OrderTable() {
     const RECENT_ORDERS = [
-  { model: "'71 Datsun 510", ref: "WHL-008", customer: "Marco Fields", date: "Dec 18", price: "$7.49", status: "Delivered" },
-  { model: "Bone Shaker", ref: "WHL-003", customer: "Priya Shah", date: "Dec 17", price: "$6.99", status: "Shipped" },
-  { model: "Rodger Dodger", ref: "WHL-006", customer: "Leo Whitfield", date: "Dec 16", price: "$6.99", status: "Processing" },
-  { model: "Twin Mill", ref: "WHL-002", customer: "Ana Brooks", date: "Dec 15", price: "$6.99", status: "Delivered" },
-  { model: "'69 Camaro", ref: "WHL-001", customer: "Jonas Reyes", date: "Dec 14", price: "$6.99", status: "Shipped" },
+  { model: "'71 Datsun 510", ref: "WHL-008", customer: "Marco Fields", date: "Dec 18", price: "Rs. 749", status: "Delivered" },
+  { model: "Bone Shaker", ref: "WHL-003", customer: "Priya Shah", date: "Dec 17", price: "Rs. 699", status: "Shipped" },
+  { model: "Rodger Dodger", ref: "WHL-006", customer: "Leo Whitfield", date: "Dec 16", price: "Rs. 699", status: "Processing" },
+  { model: "Twin Mill", ref: "WHL-002", customer: "Ana Brooks", date: "Dec 15", price: "Rs. 699", status: "Delivered" },
+  { model: "'69 Camaro", ref: "WHL-001", customer: "Jonas Reyes", date: "Dec 14", price: "Rs. 699", status: "Shipped" },
 ];
 const MODELS = [
     { name: "'69 Camaro", sold: 8, color: "#e8291c" },

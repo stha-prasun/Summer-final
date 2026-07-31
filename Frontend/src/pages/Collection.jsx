@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { FaFire, FaCube, FaCarSide, FaGaugeHigh, FaStar, FaXmark, FaSpinner } from 'react-icons/fa6';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -31,8 +32,15 @@ const Collection = () => {
   const detailInnerRef = useRef(null);
   const cardRefs = useRef([]);
 
+  const navigate = useNavigate();
+
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));
+  };
+
+  const handleBuyNow = (product) => {
+    dispatch(addToCart(product));
+    navigate('/payment');
   };
 
   useEffect(() => {
@@ -237,7 +245,7 @@ const Collection = () => {
                         Add to Cart
                       </button>
                       <button
-                        onClick={() => {}}
+                        onClick={() => handleBuyNow(selectedProduct)}
                         className="flex-1 font-body text-[11px] md:text-xs uppercase tracking-[0.35em] text-white bg-red-500 border border-red-500 py-3 md:py-4 hover:bg-red-600 transition-all duration-500"
                       >
                         Buy Now
