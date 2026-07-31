@@ -195,8 +195,11 @@ const Collection = () => {
                   <div>
                     <div className="h-64 md:h-80 bg-neutral-900 relative overflow-hidden">
                       <img
-                        src={selectedProduct.image}
+                        src={selectedProduct.image || '/placeholder.jpg'}
                         alt={selectedProduct.name}
+                        onError={(e) => {
+                          e.currentTarget.src = '/placeholder.jpg';
+                        }}
                         className="absolute inset-0 w-full h-full object-contain p-8 md:p-12"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/60 to-transparent" />
