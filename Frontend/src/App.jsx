@@ -14,7 +14,7 @@ import { Onboarding } from "./pages/Users/Onboarding";
 import { Cart } from "./pages/Users/Cart";
 import { Payment } from "./pages/Users/Payment";
 import { PaymentVerify } from "./pages/Users/PaymentVerify";
-import { Orders } from "./pages/Users/Orders";
+import OrderDashboard from "./pages/Users/Orders";
 
 const ModelPage = lazy(() => import("./pages/ModelPage"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -56,7 +56,7 @@ const App = () => {
       path: "/orders",
       element: (
         <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <Orders />
+          <OrderDashboard />
         </Suspense>
       ),
     },
