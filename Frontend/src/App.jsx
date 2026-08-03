@@ -14,7 +14,7 @@ import { Onboarding } from "./pages/Users/Onboarding";
 import { Cart } from "./pages/Users/Cart";
 import { Payment } from "./pages/Users/Payment";
 import { PaymentVerify } from "./pages/Users/PaymentVerify";
-import OrderDashboard from "./pages/Users/Orders";
+import OrderDashboard from "./pages/Users/Order/Orders";
 
 const ModelPage = lazy(() => import("./pages/ModelPage"));
 const Contact = lazy(() => import("./pages/Contact"));
