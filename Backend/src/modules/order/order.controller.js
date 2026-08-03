@@ -2,8 +2,9 @@ import * as orderService from './order.service.js';
 
 export const getAllOrders = async (req, res) => {
   try {
-    const {orders} = req.query;
-    const orders = await orderService.getAllOrders(orders);
+    const { category } = req.query; 
+    const orders = await orderService.getAllOrders(category);
+
     if (orders.length === 0) {
       return res.status(200).json({
         success: false,
@@ -12,9 +13,9 @@ export const getAllOrders = async (req, res) => {
       });
     }
     return res.status(200).json({
-        success: true,
-        orders,
-      });
+      success: true,
+      orders,
+    });
   } catch (error) {
     console.log(error);
     return res.status(400).json({
