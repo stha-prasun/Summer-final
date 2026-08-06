@@ -220,8 +220,10 @@ export const PAYMENT_STATUS_TINT = {
 };
 
 export const STATUS_TINT = {
-  "On-process": "bg-amber-100 text-amber-600",
-  Completed: "bg-emerald-100 text-emerald-600",
+  pending: "bg-amber-100 text-amber-600",
+  paid: "bg-emerald-100 text-emerald-600",
+  failed: "bg-red-100 text-red-600",
+  cancelled: "bg-slate-200 text-slate-600",
 };
 
 export const CATEGORY_TINT = {

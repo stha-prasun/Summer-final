@@ -15,6 +15,7 @@ import { Cart } from "./pages/Users/Cart";
 import { Payment } from "./pages/Users/Payment";
 import { PaymentVerify } from "./pages/Users/PaymentVerify";
 import OrderDashboard from "./pages/Users/Order/Orders";
+import OrderById from "./pages/Users/Order/OrderById";
 
 const ModelPage = lazy(() => import("./pages/ModelPage"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -57,6 +58,14 @@ const App = () => {
       element: (
         <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
           <OrderDashboard />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/orders/:id",
+      element: (
+        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+          <OrderById />
         </Suspense>
       ),
     },

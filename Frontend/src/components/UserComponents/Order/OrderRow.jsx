@@ -30,7 +30,7 @@ export function OrderRow({ order, onSelect, isHovered, onHover, onLeave }) {
           </span>
           <span className="text-xs text-slate-400">{order.time}</span>
           <span className="text-xs text-slate-500">
-            Type : {order.type} &nbsp;·&nbsp; Qty : {t.itemCount}
+            Qty : {t.itemCount}
           </span>
         </div>
         <div className="flex items-center gap-3">

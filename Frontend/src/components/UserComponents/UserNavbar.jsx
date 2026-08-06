@@ -27,7 +27,6 @@ const UserNavbar = () => {
   const cartCount = cartItems.reduce((sum, i) => sum + (i.quantity || 0), 0);
 
   const navLinks = [
-    { to: "/user/dashboard", label: "Dashboard" },
     { to: "/orders", label: "Orders" },
   ];
 

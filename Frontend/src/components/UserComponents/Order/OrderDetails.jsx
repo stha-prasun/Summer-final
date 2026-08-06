@@ -24,10 +24,6 @@ export function OrderDetail({ order, onBack }) {
           <p className="text-lg font-bold text-slate-900">#{order.id}</p>
         </div>
         <div>
-          <p className="text-xs text-slate-400">Fulfillment</p>
-          <p className="text-lg font-bold text-slate-900">{order.type}</p>
-        </div>
-        <div>
           <p className="text-xs text-slate-400">Time</p>
           <p className="text-lg font-bold text-slate-900">{order.time}</p>
         </div>
@@ -94,10 +90,6 @@ export function OrderDetail({ order, onBack }) {
             <span>Items ({totals.itemCount})</span>
             <span>${totals.subtotal.toFixed(2)}</span>
           </div>
-          <div className="flex justify-between text-slate-500">
-            <span>Tax (10%)</span>
-            <span>${totals.tax.toFixed(2)}</span>
-          </div>
           <div className="mt-1 flex justify-between border-t border-slate-100 pt-2 text-base font-bold text-slate-900">
             <span>Total</span>
             <span>${totals.total.toFixed(2)}</span>
@@ -138,7 +130,7 @@ export function OrderDetail({ order, onBack }) {
             <div className="flex justify-between border-t border-slate-100 pt-2">
               <span>Amount</span>
               <span className="font-semibold text-slate-900">
-                ${Number(pay.amount ?? totals.total).toFixed(2)}
+                ${totals.total.toFixed(2)}
               </span>
             </div>
           </div>

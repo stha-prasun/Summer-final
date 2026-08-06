@@ -2,18 +2,7 @@ import * as orderService from "./order.service.js";
 
 export const getAllOrders = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    if (!id) {
-      return res.status(400).json({
-        message: "Id required!",
-        success: false,
-      });
-    }
-
-    const { category } = req.query;
-    
-    const orders = await orderService.getAllOrders(id, category);
+    const orders = await orderService.getAllOrders(req.userId);
 
     if (orders.length === 0) {
       return res.status(200).json({
@@ -45,7 +34,7 @@ export const getOrderById = async (req, res) => {
       });
     }
 
-    const orderItem = await orderService.getOrderById(id);
+    const orderItem = await orderService.getOrderById(id, req.userId);
     if (!orderItem) {
       return res.status(404).json({
         success: false,
@@ -59,5 +48,9 @@ export const getOrderById = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Failed to get order.",
+    });
   }
 };

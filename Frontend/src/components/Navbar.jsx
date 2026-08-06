@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FaGithub, FaDiscord, FaXTwitter } from 'react-icons/fa6';
-import { FiShoppingCart, FiGrid, FiUser } from 'react-icons/fi';
+import { FiShoppingCart, FiPackage, FiUser } from 'react-icons/fi';
 import gsap from 'gsap';
 
 const Navbar = () => {
@@ -67,8 +67,8 @@ const Navbar = () => {
                 <FiShoppingCart size={16} />
               </Link>
               {user ? (
-                <Link to="/user/dashboard" aria-label="Dashboard" className={iconClass}>
-                  <FiGrid size={16} />
+                <Link to="/orders" aria-label="Orders" className={iconClass}>
+                  <FiPackage size={16} />
                 </Link>
               ) : (
                 <Link to="/login" aria-label="Login" className={iconClass}>
@@ -115,13 +115,13 @@ const Navbar = () => {
               <div className="flex items-center gap-6">
                 {user ? (
                   <Link
-                    to="/user/dashboard"
+                    to="/orders"
                     onClick={() => setMenuOpen(false)}
-                    aria-label="Dashboard"
+                    aria-label="Orders"
                     className="text-zinc-400 hover:text-white transition-colors flex flex-col items-center gap-1"
                   >
-                    <FiGrid size={18} />
-                    <span className="text-[10px] uppercase tracking-widest">Dashboard</span>
+                    <FiPackage size={18} />
+                    <span className="text-[10px] uppercase tracking-widest">Orders</span>
                   </Link>
                 ) : (
                   <Link

@@ -1,5 +1,6 @@
 import { Order } from '../order/order.model.js';
 import { Product } from '../product/product.model.js';
+import { clearUserOrdersCache } from '../order/order.service.js';
 
 const KHALTI_PAYMENT_URL = process.env.KHALTI_PAYMENT_URL;
 const KHALTI_VERIFICATION_URL = process.env.KHALTI_VERIFICATION_URL;
@@ -85,6 +86,7 @@ export const initiatePayment = async ({ userId, items, customer }) => {
   order.payment.pidx = data.pidx;
   order.payment.status = 'initiated';
   await order.save();
+  await clearUserOrdersCache(userId);
 
   return {
     pidx: data.pidx,
@@ -123,6 +125,7 @@ export const verifyPayment = async ({ pidx }) => {
     }
 
     await order.save();
+    await clearUserOrdersCache(order.user);
   }
 
   return {

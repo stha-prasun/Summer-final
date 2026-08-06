@@ -18,7 +18,7 @@ export const useGetAllOrders = () => {
       dispatch(setLoading(true));
       dispatch(setError(null));
       try {
-        const res = await api.get(`/orders/all/${loggedInUser._id}`);
+        const res = await api.get('/orders/all');
         dispatch(setOrders(res.data.orders || []));
       } catch (err) {
         dispatch(

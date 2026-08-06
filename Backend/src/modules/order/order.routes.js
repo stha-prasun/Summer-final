@@ -1,36 +1,31 @@
 import { Router } from 'express';
-import { authenticate } from '../auth/auth.middleware.js';
-import upload from '../../config/multer.js';
+import { authenticate } from '../user/user.middleware.js';
 import { getAllOrders, getOrderById } from './order.controller.js';
-
 
 const router = Router();
 
 /**
  * @openapi
- * /api/v1/orders:
+ * /api/v1/orders/all:
  *   get:
- *     summary: List all Orders
+ *     summary: List all Orders for the authenticated user
  *     tags: [Orders]
- *     parameters:
- *       - in: query
- *         name: category
- *         schema:
- *           type: string
- *           enum: [all, muscle, imports, exotics, originals]
- *         description: Filter by category
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Order list
  */
-router.get('/all/:id', authenticate, getAllOrders);
+router.get('/all', authenticate, getAllOrders);
 
 /**
  * @openapi
  * /api/v1/orders/{id}:
  *   get:
- *     summary: Get a single order
+ *     summary: Get a single order owned by the authenticated user
  *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
