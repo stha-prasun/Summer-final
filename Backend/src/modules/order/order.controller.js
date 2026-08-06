@@ -1,14 +1,24 @@
-import * as orderService from './order.service.js';
+import * as orderService from "./order.service.js";
 
 export const getAllOrders = async (req, res) => {
   try {
-    const { category } = req.query; 
-    const orders = await orderService.getAllOrders(category);
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({
+        message: "Id required!",
+        success: false,
+      });
+    }
+
+    const { category } = req.query;
+    
+    const orders = await orderService.getAllOrders(id, category);
 
     if (orders.length === 0) {
       return res.status(200).json({
         success: false,
-        message: 'No orders found.',
+        message: "No orders found.",
         orders: [],
       });
     }
@@ -20,18 +30,18 @@ export const getAllOrders = async (req, res) => {
     console.log(error);
     return res.status(400).json({
       success: false,
-      message: error.message || 'Failed to get orders.',
+      message: error.message || "Failed to get orders.",
     });
   }
 };
 
 export const getOrderById = async (req, res) => {
-  try{
+  try {
     const { id } = req.params;
     if (!id) {
       return res.status(400).json({
         success: false,
-        message: 'Order ID is required.',
+        message: "Order ID is required.",
       });
     }
 
@@ -39,7 +49,7 @@ export const getOrderById = async (req, res) => {
     if (!orderItem) {
       return res.status(404).json({
         success: false,
-        message: 'Order not found.',
+        message: "Order not found.",
       });
     }
 
@@ -47,8 +57,7 @@ export const getOrderById = async (req, res) => {
       success: true,
       order: orderItem,
     });
-  }catch(error){
+  } catch (error) {
     console.log(error);
-
   }
-}
+};

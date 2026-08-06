@@ -1,6 +1,6 @@
 import { Order } from './order.model.js';
 import { CACHE_KEYS, ORDER_CACHE_TTL } from './constants.js';
-import { getFromCache, setToCache } from './helpers/cache.js';
+import { getFromCache, setToCache } from './helper/cache.js';
 
 export const getAllOrders = async (userId, category) => {
   const categoryKey = category && category !== 'all' ? category : 'all';
