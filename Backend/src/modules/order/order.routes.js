@@ -23,7 +23,7 @@ const router = Router();
  *       200:
  *         description: Order list
  */
-router.get('/all/:id', getAllOrders);
+router.get('/all/:id', authenticate, getAllOrders);
 
 /**
  * @openapi
@@ -43,6 +43,6 @@ router.get('/all/:id', getAllOrders);
  *       404:
  *         description: Order not found
  */
-router.get('/:id', getOrderById);
+router.get('/:id', authenticate, getOrderById);
 
 export default router;
