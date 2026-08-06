@@ -4,6 +4,7 @@ import adminSlice from "./adminSlice.js";
 import cartReducer from "./cartSlice.js";
 import userSlice from "./userSlice.js";
 import productsReducer from "./productsSlice.js";
+import ordersReducer from "./OrderSlice.js"
 
 const storage = {
   getItem: (key) => Promise.resolve(localStorage.getItem(key)),
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   Cart: cartReducer,
   User: userSlice,
   Products: productsReducer,
+  orders: ordersReducer
 });
 
 const persistConfig = {

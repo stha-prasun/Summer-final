@@ -3,16 +3,20 @@ import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";;
 import {OrderRow} from "./OrderRow";
 import {OrderDetail} from "./OrderDetails";
-import { ORDERS } from "../../../utils/Constant";
+import {useGetAllOrders} from "../../../hooks/useGetAllOrders";
 
 export default function OrderDashboard() {
   const [tab, setTab] = useState("All");
+  const  { orders, loading, error } = useGetAllOrders();
   const [selectedId, setSelectedId] = useState(null);
-  const [hoveredId, setHoveredId] = useState(null);
+  const [hoveredId, setHoveredId] = useState(null); 
+
+  if (loading) return <div>Loading orders...</div>;
+  if (error) return <div className="text-red-500">Error: {error}</div>;
 
   const visibleOrders =
-    tab === "All" ? ORDERS : ORDERS.filter((o) => o.status === tab);
-  const selectedOrder = ORDERS.find((o) => o.id === selectedId);
+    tab === "All" ? orders : orders.filter((o) => o.status === tab);
+  const selectedOrder = orders.find((o) => o._id === selectedId);
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#F6F6F9] text-slate-800">

@@ -22,7 +22,7 @@ export const useGetAllOrders = () => {
       }
     };
     fetchOrders();
-  }, [orders, dispatch]);
+  }, [ dispatch]);
 
   return { orders, loading, error };
 };
