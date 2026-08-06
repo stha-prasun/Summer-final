@@ -6,7 +6,7 @@ import api from '../../services/api';
 export function Onboarding() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { name, email, password } = location.state || {};
+  const { mode, name, email, password } = location.state || {};
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState('');
@@ -40,10 +40,18 @@ export function Onboarding() {
     }
     setLoading(true);
     try {
-      const { data } = await api.post('/user/register', { name, email, password, phone, address });
-      if (data.success) {
-        toast.success('Account created! Please log in.');
-        navigate('/login');
+      if (mode === 'google') {
+        const { data } = await api.put('/user/profile', { phone, address });
+        if (data.success) {
+          toast.success('Profile completed!');
+          navigate('/');
+        }
+      } else {
+        const { data } = await api.post('/user/register', { name, email, password, phone, address });
+        if (data.success) {
+          toast.success('Account created! Please log in.');
+          navigate('/login');
+        }
       }
     } catch (error) {
       toast.error(error.response?.data?.message || 'Registration failed');
