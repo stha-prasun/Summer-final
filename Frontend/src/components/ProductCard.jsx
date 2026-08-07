@@ -63,8 +63,11 @@ const ProductCard = ({ item, index, onViewDetails, onAddToCart }) => {
             }`}
           >
             <img
-              src={item.image}
+              src={item.image || '/placeholder.jpg'}
               alt={item.name}
+              onError={(e) => {
+                e.currentTarget.src = '/placeholder.jpg';
+              }}
               className="absolute inset-0 w-full h-full object-contain p-4 md:p-6"
             />
           </div>

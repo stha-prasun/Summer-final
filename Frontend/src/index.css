@@ -9,6 +9,10 @@ html {
   scrollbar-width: none;
 }
 
+body {
+  margin: 0;
+}
+
 @media (pointer: fine) {
   * {
     cursor: none !important;

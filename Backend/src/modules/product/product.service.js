@@ -3,7 +3,7 @@ import { Product } from './product.model.js';
 import { createProduct, applyUpdates } from './factory/product.factory.js';
 import cloudinary from '../../config/cloudinary.js';
 import { CACHE_KEYS } from './constants.js';
-import { getFromCache, setToCache, clearProductCache } from './helpers/cache.js';
+import { getFromCache, setToCache, clearCacheByPattern } from '../../config/cache.js';
 
 const uploadToCloudinary = (buffer) => {
   return new Promise((resolve, reject) => {
@@ -35,7 +35,7 @@ export const addProduct = async (data, file) => {
   }
   const product = createProduct(data);
   await product.save();
-  await clearProductCache();
+  await clearCacheByPattern('products:*');
   return product;
 };
 
@@ -52,7 +52,7 @@ export const updateProduct = async (id, data, file) => {
 
   applyUpdates(product, data);
   await product.save();
-  await clearProductCache();
+  await clearCacheByPattern('products:*');
   return product;
 };
 
@@ -62,7 +62,7 @@ export const deleteProduct = async (id) => {
 
   await deleteFromCloudinary(product.cloudinaryId);
   await Product.findByIdAndDelete(id);
-  await clearProductCache();
+  await clearCacheByPattern('products:*');
   return product;
 };
 

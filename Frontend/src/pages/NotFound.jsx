@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
 import gsap from "gsap";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
 const NotFound = () => {
   const sectionRef = useRef(null);
@@ -77,7 +76,6 @@ const NotFound = () => {
           </div>
         </div>
       </section>
-      <Footer />
     </>
   );
 };

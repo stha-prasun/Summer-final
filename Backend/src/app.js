@@ -8,13 +8,19 @@ import healthRoutes from './modules/health/health.routes.js';
 import contactRoutes from './modules/contact/contact.routes.js';
 import authRoutes from './modules/auth/auth.routes.js';
 import productRoutes from './modules/product/product.routes.js';
+import userRoutes from './modules/user/user.routes.js';
+import paymentRoutes from './modules/payment/payment.routes.js';
+import orderRoutes from './modules/order/order.routes.js';
 
 import { Router } from 'express';
 const apiRouter = Router();
 apiRouter.use('/', healthRoutes);
 apiRouter.use('/contact', contactRoutes);
-apiRouter.use('/user', authRoutes);
+apiRouter.use('/admin', authRoutes);
+apiRouter.use('/user', userRoutes);
 apiRouter.use('/products', productRoutes);
+apiRouter.use('/payment', paymentRoutes);
+apiRouter.use('/orders', orderRoutes);
 
 const app = express();
 

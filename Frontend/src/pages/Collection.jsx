@@ -1,125 +1,16 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { FaFire, FaCube, FaCarSide, FaGaugeHigh, FaStar, FaXmark } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
+import { FaFire, FaCube, FaCarSide, FaGaugeHigh, FaStar, FaXmark, FaSpinner } from 'react-icons/fa6';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ProductCard from '../components/ProductCard';
 import { addToCart } from '../redux/cartSlice';
+import { useGetAllProducts } from '../hooks/useGetAllProducts';
 
 gsap.registerPlugin(ScrollTrigger);
-
-const products = [
-  {
-    id: 1, _id: "1", name: "'69 Camaro", series: 'Muscle Mania', year: '2025',
-    price: '$6.99', category: 'muscle', badge: 'Limited',
-    gradient: 'from-red-600 via-red-500 to-rose-400',
-    accent: 'bg-red-500', border: 'border-red-500/20',
-    image: 'https://images.unsplash.com/photo-1584345274849-e9596d6ea12d?w=600&h=400&fit=crop&auto=format',
-    description: 'The first-generation Camaro returns in Spectraflame red with Real Riders rubber tires. A true icon reborn.',
-    specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: '5000 pcs' },
-  },
-  {
-    id: 2, _id: "2", name: 'Twin Mill', series: 'Originals', year: '2025',
-    price: '$6.99', category: 'originals', badge: 'New',
-    gradient: 'from-purple-600 via-purple-500 to-fuchsia-400',
-    accent: 'bg-purple-500', border: 'border-purple-500/20',
-    image: 'https://images.unsplash.com/photo-1758793046331-728010773dff?w=600&h=400&fit=crop&auto=format',
-    description: 'The legendary twin-engine custom returns in a head-turning purple finish. Born in the \'70s, built for today.',
-    specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
-  },
-  {
-    id: 3, _id: "3", name: 'Bone Shaker', series: 'Originals', year: '2025',
-    price: '$6.99', category: 'originals',
-    gradient: 'from-emerald-600 via-emerald-500 to-green-400',
-    accent: 'bg-emerald-500', border: 'border-emerald-500/20',
-    image: 'https://images.unsplash.com/photo-1698326456873-3f748646b8c3?w=600&h=400&fit=crop&auto=format',
-    description: 'Hot Wheels\' most iconic skull-faced hot rod. Emerald green Spectraflame with exposed engine detail.',
-    specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
-  },
-  {
-    id: 4, _id: "4", name: 'Deora II', series: 'Originals', year: '2025',
-    price: '$6.99', category: 'originals',
-    gradient: 'from-sky-600 via-sky-500 to-cyan-400',
-    accent: 'bg-sky-500', border: 'border-sky-500/20',
-    image: 'https://images.unsplash.com/photo-1573408197181-7f6ef8ffa90a?w=600&h=400&fit=crop&auto=format',
-    description: 'The surf-inspired pickup with the front-mounted cab. Sky-blue metallic with tampo graphics.',
-    specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
-  },
-  {
-    id: 5, _id: "5", name: "'57 Chevy", series: 'Hot Trucks', year: '2025',
-    price: '$6.99', category: 'originals',
-    gradient: 'from-amber-500 via-yellow-400 to-orange-300',
-    accent: 'bg-amber-500', border: 'border-amber-500/20',
-    image: 'https://images.unsplash.com/photo-1728397385981-98a403e92431?w=600&h=400&fit=crop&auto=format',
-    description: 'Classic \'57 Chevy truck in a candy amber finish. Deep-dish wheels and a tailgate that means business.',
-    specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
-  },
-  {
-    id: 6, _id: "6", name: 'Rodger Dodger', series: 'Originals', year: '2025',
-    price: '$6.99', category: 'originals', badge: 'New',
-    gradient: 'from-orange-600 via-orange-500 to-yellow-400',
-    accent: 'bg-orange-500', border: 'border-orange-500/20',
-    image: 'https://images.unsplash.com/photo-1742294739692-a553654f3d7f?w=600&h=400&fit=crop&auto=format',
-    description: 'The winged wedge returns. Blazing orange with bold racing stripes down the center line.',
-    specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
-  },
-  {
-    id: 7, _id: "7", name: "'70 Superbird", series: 'Muscle Mania', year: '2025',
-    price: '$6.99', category: 'muscle', badge: 'Limited',
-    gradient: 'from-stone-500 via-neutral-400 to-zinc-300',
-    accent: 'bg-stone-500', border: 'border-stone-500/20',
-    image: 'https://images.unsplash.com/photo-1767023205813-dfa7f0f1f9ce?w=600&h=400&fit=crop&auto=format',
-    description: 'The NASCAR legend with the towering rear wing. Limited-run in matte silver with vintage deco.',
-    specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: '5000 pcs' },
-  },
-  {
-    id: 8, _id: "8", name: "'71 Datsun 510", series: 'J-Imports', year: '2025',
-    price: '$7.49', category: 'imports', badge: 'New',
-    gradient: 'from-rose-600 via-red-500 to-pink-400',
-    accent: 'bg-rose-500', border: 'border-rose-500/20',
-    image: 'https://images.unsplash.com/photo-1570984780932-9620b70dab35?w=600&h=400&fit=crop&auto=format',
-    description: 'The iconic Japanese sports sedan in rose-crimson. SSR Mark II wheels and a lowered stance.',
-    specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
-  },
-  {
-    id: 9, _id: "9", name: "'95 Mazda RX-7", series: 'J-Imports', year: '2025',
-    price: '$7.49', category: 'imports',
-    gradient: 'from-yellow-500 via-amber-400 to-orange-300',
-    accent: 'bg-yellow-500', border: 'border-yellow-500/20',
-    image: 'https://images.unsplash.com/photo-1762095209834-a74486e2b7be?w=600&h=400&fit=crop&auto=format',
-    description: 'Golden-age JDM icon with the legendary rotary. Wide-body stance and polished Watanabe wheels.',
-    specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
-  },
-  {
-    id: 10, _id: "10", name: 'McLaren Senna', series: 'Exotics', year: '2025',
-    price: '$7.99', category: 'exotics', badge: 'New',
-    gradient: 'from-orange-600 via-orange-500 to-red-400',
-    accent: 'bg-orange-500', border: 'border-orange-500/20',
-    image: 'https://images.unsplash.com/photo-1691981968241-d1b5da2443e0?w=600&h=400&fit=crop&auto=format',
-    description: 'Ayrton Senna\'s namesake hypercar in lava orange. Dihedral doors and active aero in miniature.',
-    specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
-  },
-  {
-    id: 11, _id: "11", name: 'Pagani Huayra', series: 'Exotics', year: '2025',
-    price: '$7.99', category: 'exotics',
-    gradient: 'from-slate-500 via-gray-400 to-zinc-300',
-    accent: 'bg-slate-500', border: 'border-slate-500/20',
-    image: 'https://images.unsplash.com/photo-1749599356952-3598b7304860?w=600&h=400&fit=crop&auto=format',
-    description: 'Italian artisan hypercar in polished silver. Active aero flaps and quad exhaust tips detailed.',
-    specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
-  },
-  {
-    id: 12, _id: "12", name: "'18 Challenger", series: 'Muscle Mania', year: '2025',
-    price: '$6.99', category: 'muscle',
-    gradient: 'from-zinc-900 via-zinc-800 to-zinc-700',
-    accent: 'bg-zinc-600', border: 'border-zinc-600/20',
-    image: 'https://images.unsplash.com/photo-1573806719978-9f22b2360fad?w=600&h=400&fit=crop&auto=format',
-    description: 'Modern muscle in stealth black. Wide body, racing stripes, and a supercharged hemi under the hood.',
-    specs: { scale: '1:64', material: 'Die-cast Zamac', tampo: 'Full', limited: 'Standard' },
-  },
-];
 
 const categories = [
   { key: 'all', label: 'All', icon: FaCube },
@@ -133,6 +24,7 @@ const Collection = () => {
   const dispatch = useDispatch();
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const { products, loading, error } = useGetAllProducts(activeCategory);
   const sectionRef = useRef(null);
   const headerRef = useRef(null);
   const filterRef = useRef(null);
@@ -140,14 +32,16 @@ const Collection = () => {
   const detailInnerRef = useRef(null);
   const cardRefs = useRef([]);
 
+  const navigate = useNavigate();
+
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));
   };
 
-  const filtered = useMemo(
-    () => activeCategory === 'all' ? products : products.filter((p) => p.category === activeCategory),
-    [activeCategory],
-  );
+  const handleBuyNow = (product) => {
+    dispatch(addToCart(product));
+    navigate('/payment');
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -177,7 +71,7 @@ const Collection = () => {
       });
     });
     return () => ctx.revert();
-  }, [filtered]);
+  }, [products]);
 
   const handleViewDetails = (product) => {
     setSelectedProduct(product);
@@ -256,18 +150,30 @@ const Collection = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
-            {filtered.map((item, i) => (
-              <div key={item.id} ref={(el) => (cardRefs.current[i] = el)}>
-                <ProductCard item={item} index={i} onViewDetails={handleViewDetails} onAddToCart={handleAddToCart} />
-              </div>
-            ))}
-          </div>
-
-          {filtered.length === 0 && (
-            <div className="text-center py-20">
-              <p className="font-body text-xs text-zinc-600 uppercase tracking-[0.3em]">No products in this category</p>
+          {loading ? (
+            <div className="flex items-center justify-center py-32">
+              <FaSpinner className="text-zinc-500 animate-spin" size={28} />
             </div>
+          ) : error ? (
+            <div className="text-center py-20">
+              <p className="font-body text-xs text-zinc-600 uppercase tracking-[0.3em]">{error}</p>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
+                {products.map((item, i) => (
+                  <div key={item._id || item.id} ref={(el) => (cardRefs.current[i] = el)}>
+                    <ProductCard item={item} index={i} onViewDetails={handleViewDetails} onAddToCart={handleAddToCart} />
+                  </div>
+                ))}
+              </div>
+
+              {products.length === 0 && (
+                <div className="text-center py-20">
+                  <p className="font-body text-xs text-zinc-600 uppercase tracking-[0.3em]">No products in this category</p>
+                </div>
+              )}
+            </>
           )}
 
           {selectedProduct && (
@@ -289,8 +195,11 @@ const Collection = () => {
                   <div>
                     <div className="h-64 md:h-80 bg-neutral-900 relative overflow-hidden">
                       <img
-                        src={selectedProduct.image}
+                        src={selectedProduct.image || '/placeholder.jpg'}
                         alt={selectedProduct.name}
+                        onError={(e) => {
+                          e.currentTarget.src = '/placeholder.jpg';
+                        }}
                         className="absolute inset-0 w-full h-full object-contain p-8 md:p-12"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/60 to-transparent" />
@@ -339,7 +248,7 @@ const Collection = () => {
                         Add to Cart
                       </button>
                       <button
-                        onClick={() => {}}
+                        onClick={() => handleBuyNow(selectedProduct)}
                         className="flex-1 font-body text-[11px] md:text-xs uppercase tracking-[0.35em] text-white bg-red-500 border border-red-500 py-3 md:py-4 hover:bg-red-600 transition-all duration-500"
                       >
                         Buy Now

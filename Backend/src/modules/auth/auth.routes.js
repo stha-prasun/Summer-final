@@ -5,10 +5,10 @@ const router = Router();
 
 /**
  * @openapi
- * /api/v1/user/login:
+ * /api/v1/admin/login:
  *   post:
  *     summary: Admin login
- *     tags: [Auth]
+ *     tags: [Admin]
  *     requestBody:
  *       required: true
  *       content:
@@ -31,10 +31,10 @@ router.post("/login", login);
 
 /**
  * @openapi
- * /api/v1/user/refresh:
+ * /api/v1/admin/refresh:
  *   post:
  *     summary: Refresh access token
- *     tags: [Auth]
+ *     tags: [Admin]
  *     responses:
  *       200:
  *         description: Tokens refreshed
