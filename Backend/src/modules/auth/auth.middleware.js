@@ -1,4 +1,5 @@
 import { verifyAccessToken } from './auth.token.js';
+import { Admin } from '../admin/admin.model.js';
 
 export const authenticate = (req, res, next) => {
   const header = req.headers.authorization;
@@ -14,5 +15,19 @@ export const authenticate = (req, res, next) => {
     next();
   } catch {
     return res.status(401).json({ success: false, error: 'Invalid or expired token.' });
+  }
+};
+
+export const isAdmin = async (req, res, next) => {
+  try {
+    const admin = await Admin.findById(req.adminId).select('role').lean();
+
+    if (!admin || admin.role !== 'admin') {
+      return res.status(403).json({ success: false, error: 'Admin access required.' });
+    }
+
+    next();
+  } catch {
+    return res.status(403).json({ success: false, error: 'Admin access required.' });
   }
 };

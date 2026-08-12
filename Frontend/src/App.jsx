@@ -1,9 +1,10 @@
 import React, { lazy, Suspense } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import CustomCursor from "./components/CustomCursor";
+import RouteLoadingBar from "./components/RouteLoadingBar";
 import useSmoothScroll from "./hooks/useSmoothScroll";
 import AdminLogin from "./pages/auth/AdminLogin";
 import AdminDashboard from "./pages/Admin/Dashboard/AdminDashboard"
@@ -24,154 +25,167 @@ const ModelPage = lazy(() => import("./pages/ModelPage"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Collection = lazy(() => import("./pages/Collection"));
 
+function RootLayout() {
+  return (
+    <>
+      <RouteLoadingBar />
+      <Outlet />
+    </>
+  );
+}
+
 const App = () => {
   useSmoothScroll();
 
   const appRouter = createBrowserRouter([
     {
-      path: "/",
-      element: <Home />,
-    },
-    {
-      path: "/model",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <ModelPage />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/collection",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <Collection />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/contact",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <Contact />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/orders",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <OrderDashboard />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/orders/:id",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <OrderById />
-        </Suspense>
-      ),
-    },
-    
-    {
-      path: "/admin/login",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <AdminLogin />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/admin/dashboard",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <AdminDashboard />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/admin/add-products",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <AddProductPage />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/admin/view-products",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <ViewProductsPage />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/admin/products/:id",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <ProductViewPage />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/admin/products/:id/edit",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <EditProductPage />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/login",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <UserLogin />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/register",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <UserRegister/>
-        </Suspense>
-      ),
-    },
-    {
-      path: "/onboarding",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <Onboarding />
-        </Suspense>
-      ),
-    },
+      element: <RootLayout />,
+      children: [
         {
-      path: "/cart",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <Cart />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/payment",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <Payment />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/payment/verify",
-      element: (
-        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
-          <PaymentVerify />
-        </Suspense>
-      ),
-    },
-    {
-      path: "*",
-      element: <NotFound />,
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "/model",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <ModelPage />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/collection",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <Collection />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/contact",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <Contact />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/orders",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <OrderDashboard />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/orders/:id",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <OrderById />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/admin/login",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <AdminLogin />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/admin/dashboard",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <AdminDashboard />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/admin/add-products",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <AddProductPage />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/admin/view-products",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <ViewProductsPage />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/admin/products/:id",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <ProductViewPage />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/admin/products/:id/edit",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <EditProductPage />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/login",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <UserLogin />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/register",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <UserRegister/>
+            </Suspense>
+          ),
+        },
+        {
+          path: "/onboarding",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <Onboarding />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/cart",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <Cart />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/payment",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <Payment />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/payment/verify",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <PaymentVerify />
+            </Suspense>
+          ),
+        },
+        {
+          path: "*",
+          element: <NotFound />,
+        },
+      ],
     },
   ]);
   return (

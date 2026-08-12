@@ -11,12 +11,14 @@ import productRoutes from './modules/product/product.routes.js';
 import userRoutes from './modules/user/user.routes.js';
 import paymentRoutes from './modules/payment/payment.routes.js';
 import orderRoutes from './modules/order/order.routes.js';
+import adminRoutes from './modules/admin/admin.routes.js';
 
 import { Router } from 'express';
 const apiRouter = Router();
 apiRouter.use('/', healthRoutes);
 apiRouter.use('/contact', contactRoutes);
 apiRouter.use('/admin', authRoutes);
+apiRouter.use('/admin', adminRoutes);
 apiRouter.use('/user', userRoutes);
 apiRouter.use('/products', productRoutes);
 apiRouter.use('/payment', paymentRoutes);
