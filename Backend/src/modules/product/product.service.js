@@ -1,3 +1,4 @@
+import sharp from 'sharp';
 import streamifier from 'streamifier';
 import { Product } from './product.model.js';
 import { createProduct, applyUpdates } from './factory/product.factory.js';
@@ -5,7 +6,38 @@ import cloudinary from '../../config/cloudinary.js';
 import { CACHE_KEYS } from './constants.js';
 import { getFromCache, setToCache, clearCacheByPattern } from '../../config/cache.js';
 
-const uploadToCloudinary = (buffer) => {
+const optimizeImage = async (buffer, mimetype) => {
+  const image = sharp(buffer);
+  const metadata = await image.metadata();
+
+  // Strip metadata (EXIF, ICC profiles, etc.) — saves space with zero visual quality loss
+  image.rotate(); // auto-rotate based on EXIF, then strip metadata
+
+  if (mimetype === 'image/jpeg' || mimetype === 'image/jpg') {
+    return image
+      .jpeg({ quality: 85, mozjpeg: true, chromaSubsampling: '4:4:4' })
+      .toBuffer();
+  }
+
+  if (mimetype === 'image/png') {
+    return image
+      .png({ compressionLevel: 6, palette: metadata.channels <= 4 })
+      .toBuffer();
+  }
+
+  if (mimetype === 'image/webp') {
+    return image
+      .webp({ quality: 85, lossless: false })
+      .toBuffer();
+  }
+
+  // Fallback: return original buffer if format not handled
+  return buffer;
+};
+
+const uploadToCloudinary = async (buffer, mimetype) => {
+  const optimized = await optimizeImage(buffer, mimetype);
+
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
       { folder: 'products', resource_type: 'image' },
@@ -14,7 +46,7 @@ const uploadToCloudinary = (buffer) => {
         else resolve({ url: result.secure_url, publicId: result.public_id });
       }
     );
-    streamifier.createReadStream(buffer).pipe(stream);
+    streamifier.createReadStream(optimized).pipe(stream);
   });
 };
 
@@ -29,7 +61,7 @@ const deleteFromCloudinary = async (publicId) => {
 
 export const addProduct = async (data, file) => {
   if (file) {
-    const { url, publicId } = await uploadToCloudinary(file.buffer);
+    const { url, publicId } = await uploadToCloudinary(file.buffer, file.mimetype);
     data.image = url;
     data.cloudinaryId = publicId;
   }
@@ -45,7 +77,7 @@ export const updateProduct = async (id, data, file) => {
 
   if (file) {
     await deleteFromCloudinary(product.cloudinaryId);
-    const { url, publicId } = await uploadToCloudinary(file.buffer);
+    const { url, publicId } = await uploadToCloudinary(file.buffer, file.mimetype);
     data.image = url;
     data.cloudinaryId = publicId;
   }
