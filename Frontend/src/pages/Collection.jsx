@@ -204,7 +204,13 @@ const Collection = () => {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/60 to-transparent" />
                       {selectedProduct.badge && (
-                        <span className={`absolute top-4 right-4 font-body text-[9px] md:text-[11px] uppercase tracking-[0.25em] px-3 py-1.5 border ${selectedProduct.border} text-white bg-${selectedProduct.accent.replace('bg-', '').replace('500', '500/80')}`}>
+                        <span
+                          className="absolute top-4 right-4 font-body text-[9px] md:text-[11px] uppercase tracking-[0.25em] px-3 py-1 border text-white"
+                          style={{
+                            borderColor: selectedProduct.border || 'rgba(255,255,255,0.1)',
+                            backgroundColor: selectedProduct.accent ? `${selectedProduct.accent}cc` : 'rgba(124,58,237,0.8)',
+                          }}
+                        >
                           {selectedProduct.badge}
                         </span>
                       )}
@@ -218,7 +224,10 @@ const Collection = () => {
                     <h3 className="detail-stagger font-display text-4xl sm:text-5xl md:text-7xl text-white uppercase tracking-tight leading-[0.85] mb-3">
                       {selectedProduct.name}
                     </h3>
-                    <div className={`detail-stagger w-12 h-[2px] ${selectedProduct.accent} mb-4`} />
+                    <div
+                      className="w-12 h-[2px] mb-4"
+                      style={{ backgroundColor: selectedProduct.accent || '#7c3aed' }}
+                    />
 
                     <p className="detail-stagger font-body text-xs md:text-sm text-zinc-400 leading-relaxed mb-6 max-w-lg">
                       {selectedProduct.description}

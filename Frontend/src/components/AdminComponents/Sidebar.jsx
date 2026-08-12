@@ -2,12 +2,9 @@ import { NavItem, NavSection } from "./UiComponents";
 import { Link } from "react-router-dom";
 import {
   LayoutDashboard,
-  ListTree,
-  Car,
-  Boxes,
-  Users,
   PlusCircle,
-  FileEdit,
+  Eye,
+  Users,
   CalendarClock,
   LogOut,
   } from "lucide-react";
@@ -34,11 +31,8 @@ export function Sidebar(){
           <NavItem icon={LayoutDashboard} label="Dashboard" to="/admin/dashboard"/>
 
           <NavSection title="INVENTORY" />
-          <NavItem icon={ListTree} label="Categories" />
-          <NavItem icon={Car} label="Models" />
-          <NavItem icon={Boxes} label="Stock" />
           <NavItem icon={PlusCircle} label="Add Product" to="/admin/add-products" />
-          <NavItem icon={FileEdit} label="Edit Product" to=""/>
+          <NavItem icon={Eye} label="View Products" to="/admin/view-products" />
 
           <NavSection title="SALES & CUSTOMERS" />
           <NavItem icon={Users} label="Customers" />

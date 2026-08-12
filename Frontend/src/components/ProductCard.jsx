@@ -45,9 +45,11 @@ const ProductCard = ({ item, index, onViewDetails, onAddToCart }) => {
 
         <div className="h-44 md:h-52 relative overflow-hidden">
           <div
-            className={`absolute inset-0 bg-gradient-to-br ${item.gradient} transition-all duration-500 ${
-              hovered ? 'opacity-0' : 'opacity-100'
-            }`}
+            className="absolute inset-0 transition-all duration-500"
+            style={{
+              background: item.gradient || 'linear-gradient(135deg, #1a1a2e, #0a0a14)',
+              opacity: hovered ? 0 : 1,
+            }}
           >
             <img
               src="/silhouette.png"
@@ -75,7 +77,13 @@ const ProductCard = ({ item, index, onViewDetails, onAddToCart }) => {
           <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/60 to-transparent pointer-events-none" />
 
           {item.badge && (
-            <span className={`absolute top-3 right-3 font-body text-[8px] md:text-[10px] uppercase tracking-[0.25em] px-2.5 py-1 border ${item.border} text-white bg-${item.accent.replace('bg-', '').replace('500', '500/80')}`}>
+            <span
+              className="absolute top-3 right-3 font-body text-[8px] md:text-[10px] uppercase tracking-[0.25em] px-2.5 py-1 border text-white"
+              style={{
+                borderColor: item.border || 'rgba(255,255,255,0.1)',
+                backgroundColor: item.accent ? `${item.accent}cc` : 'rgba(124,58,237,0.8)',
+              }}
+            >
               {item.badge}
             </span>
           )}
@@ -95,7 +103,10 @@ const ProductCard = ({ item, index, onViewDetails, onAddToCart }) => {
             </span>
           </div>
 
-          <div className={`w-8 h-0.5 ${item.accent} mb-2.5`} />
+          <div
+            className="w-8 h-0.5 mb-2.5"
+            style={{ backgroundColor: item.accent || '#7c3aed' }}
+          />
 
           <div className="flex items-center gap-3 text-[10px] font-body uppercase tracking-[0.2em]">
             <span className="text-zinc-500">{item.series}</span>
@@ -122,8 +133,8 @@ const ProductCard = ({ item, index, onViewDetails, onAddToCart }) => {
         <div
           className="absolute -inset-px rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
           style={{
-            border: `1px solid ${item.border.replace('20', '40')}`,
-            boxShadow: `0 0 20px ${item.border.replace('/20', '/08')}`,
+            border: `1px solid ${item.border || 'rgba(255,255,255,0.1)'}`,
+            boxShadow: `0 0 20px ${item.border ? `${item.border}14` : 'rgba(255,255,255,0.05)'}`,
           }}
         />
       </div>

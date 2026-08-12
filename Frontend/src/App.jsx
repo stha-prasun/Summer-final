@@ -8,6 +8,9 @@ import useSmoothScroll from "./hooks/useSmoothScroll";
 import AdminLogin from "./pages/auth/AdminLogin";
 import AdminDashboard from "./pages/Admin/Dashboard/AdminDashboard"
 import AddProductPage from "./pages/Admin/Dashboard/AddProducts";
+import ViewProductsPage from "./pages/Admin/Dashboard/ViewProducts";
+import ProductViewPage from "./pages/Admin/Dashboard/ProductView";
+import EditProductPage from "./pages/Admin/Dashboard/EditProduct";
 import { UserLogin } from "./pages/Users/UserLogin";
 import { UserRegister } from "./pages/Users/UserRegister";
 import { Onboarding } from "./pages/Users/Onboarding";
@@ -91,6 +94,30 @@ const App = () => {
       element: (
         <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
           <AddProductPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/admin/view-products",
+      element: (
+        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+          <ViewProductsPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/admin/products/:id",
+      element: (
+        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+          <ProductViewPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/admin/products/:id/edit",
+      element: (
+        <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+          <EditProductPage />
         </Suspense>
       ),
     },
