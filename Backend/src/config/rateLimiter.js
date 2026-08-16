@@ -29,7 +29,11 @@ const generalLimiter = createLimiter({
   blockDuration: 60,
 });
 
-const rateLimitMiddleware = (limiter, message) => async (req, res, next) => {
+export const rateLimitMiddleware = (limiter, message) => async (req, res, next) => {
+  if (process.env.RATE_LIMIT_ENABLED === 'false') {
+    return next();
+  }
+
   const key = req.ip || req.connection.remoteAddress;
 
   try {
