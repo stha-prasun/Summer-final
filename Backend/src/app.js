@@ -13,10 +13,12 @@ import paymentRoutes from './modules/payment/payment.routes.js';
 import orderRoutes from './modules/order/order.routes.js';
 import adminRoutes from './modules/admin/admin.routes.js';
 import chatRoutes from './modules/chat/chat.routes.js';
+import { generalRateLimit } from './config/rateLimiter.js';
 
 import { Router } from 'express';
 const apiRouter = Router();
 apiRouter.use('/', healthRoutes);
+apiRouter.use(generalRateLimit);
 apiRouter.use('/contact', contactRoutes);
 apiRouter.use('/admin', authRoutes);
 apiRouter.use('/admin', adminRoutes);

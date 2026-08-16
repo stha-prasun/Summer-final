@@ -7,6 +7,7 @@ import {
   updateProfileInfo,
 } from "./user.controller.js";
 import { authenticate } from "./user.middleware.js";
+import { authRateLimit } from "../../config/rateLimiter.js";
 
 const router = Router();
 
@@ -52,7 +53,7 @@ const router = Router();
  *       400:
  *         description: Validation error
  */
-router.post("/register", register);
+router.post("/register", authRateLimit, register);
 
 /**
  * @openapi
@@ -78,7 +79,7 @@ router.post("/register", register);
  *       400:
  *         description: Invalid credentials
  */
-router.post("/login", loginUser);
+router.post("/login", authRateLimit, loginUser);
 
 /**
  * @openapi
@@ -92,7 +93,7 @@ router.post("/login", loginUser);
  *       401:
  *         description: Invalid or expired refresh token
  */
-router.post("/refresh", refreshUserSession);
+router.post("/refresh", authRateLimit, refreshUserSession);
 
 /**
  * @openapi
@@ -117,7 +118,7 @@ router.post("/refresh", refreshUserSession);
  *       400:
  *         description: Invalid Google credential
  */
-router.post("/google", googleAuth);
+router.post("/google", authRateLimit, googleAuth);
 
 /**
  * @openapi
