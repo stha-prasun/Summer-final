@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FiShoppingCart, FiLogOut } from "react-icons/fi";
+import { FiShoppingCart, FiLogOut, FiMessageCircle } from "react-icons/fi";
 import gsap from "gsap";
 
 const UserNavbar = () => {
@@ -77,6 +77,13 @@ const UserNavbar = () => {
 
           <div className="hidden md:flex items-center gap-3">
             <Link
+              to="/chat"
+              className="flex items-center gap-2 px-4 py-2 rounded-full border border-slate-300 text-xs font-semibold uppercase tracking-[0.2em] text-slate-800 hover:border-slate-900 hover:text-slate-900 transition-colors duration-300"
+            >
+              <FiMessageCircle size={14} />
+              Chat
+            </Link>
+            <Link
               to="/cart"
               className="flex items-center gap-2 px-4 py-2 rounded-full border border-slate-300 text-xs font-semibold uppercase tracking-[0.2em] text-slate-800 hover:border-slate-900 hover:text-slate-900 transition-colors duration-300"
             >
@@ -125,6 +132,15 @@ const UserNavbar = () => {
               }`}
             >
               Cart{cartCount > 0 ? ` (${cartCount})` : ""}
+            </Link>
+            <Link
+              to="/chat"
+              onClick={() => setMenuOpen(false)}
+              className={`text-xs font-semibold uppercase tracking-[0.2em] ${
+                location.pathname === "/chat" ? "text-slate-900" : "text-slate-700"
+              }`}
+            >
+              Chat
             </Link>
             <div className="pt-3 border-t border-slate-100">
               <button

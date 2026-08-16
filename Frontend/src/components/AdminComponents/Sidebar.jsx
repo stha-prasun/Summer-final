@@ -5,6 +5,7 @@ import {
   PlusCircle,
   Eye,
   CalendarClock,
+  MessageCircle,
   LogOut,
   } from "lucide-react";
 import { TEXT_FAINT } from "./Theme";
@@ -35,6 +36,9 @@ export function Sidebar(){
 
           <NavSection title="SALES & CUSTOMERS" />
           <NavItem icon={CalendarClock} label="Orders" to="/admin/orders" />
+
+          <NavSection title="SUPPORT" />
+          <NavItem icon={MessageCircle} label="Chat" to="/admin/chat" />
         </div>
 
         <div className="flex items-center gap-3 px-3 py-2 text-sm cursor-pointer mt-auto" style={{ color: "#ef4444" }}>

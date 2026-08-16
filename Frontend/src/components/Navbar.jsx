@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FaGithub, FaDiscord, FaXTwitter } from 'react-icons/fa6';
-import { FiShoppingCart, FiPackage, FiUser } from 'react-icons/fi';
+import { FiShoppingCart, FiPackage, FiUser, FiMessageCircle } from 'react-icons/fi';
 import gsap from 'gsap';
 
 const Navbar = () => {
@@ -63,6 +63,11 @@ const Navbar = () => {
 
           <div className="flex items-center gap-2 md:gap-3">
             <div className="hidden md:flex items-center gap-3">
+              {user && (
+                <Link to="/chat" aria-label="Chat" className={iconClass}>
+                  <FiMessageCircle size={16} />
+                </Link>
+              )}
               <Link to="/cart" aria-label="Cart" className={iconClass}>
                 <FiShoppingCart size={16} />
               </Link>
@@ -113,6 +118,17 @@ const Navbar = () => {
             ))}
             <div className="flex items-center justify-between pt-3 border-t border-white/[0.04] mt-3">
               <div className="flex items-center gap-6">
+                {user && (
+                  <Link
+                    to="/chat"
+                    onClick={() => setMenuOpen(false)}
+                    aria-label="Chat"
+                    className="text-zinc-400 hover:text-white transition-colors flex flex-col items-center gap-1"
+                  >
+                    <FiMessageCircle size={18} />
+                    <span className="text-[10px] uppercase tracking-widest">Chat</span>
+                  </Link>
+                )}
                 {user ? (
                   <Link
                     to="/orders"
