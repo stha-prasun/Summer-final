@@ -12,6 +12,8 @@ import AddProductPage from "./pages/Admin/Dashboard/AddProducts";
 import ViewProductsPage from "./pages/Admin/Dashboard/ViewProducts";
 import ProductViewPage from "./pages/Admin/Dashboard/ProductView";
 import EditProductPage from "./pages/Admin/Dashboard/EditProduct";
+import AdminOrders from "./pages/Admin/Dashboard/Orders";
+import AdminOrderDetail from "./pages/Admin/Dashboard/OrderDetail";
 import { UserLogin } from "./pages/Users/UserLogin";
 import { UserRegister } from "./pages/Users/UserRegister";
 import { Onboarding } from "./pages/Users/Onboarding";
@@ -130,6 +132,22 @@ const App = () => {
           element: (
             <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
               <EditProductPage />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/admin/orders",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <AdminOrders />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/admin/orders/:id",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <AdminOrderDetail />
             </Suspense>
           ),
         },

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   CARD_BG,
   CARD_BORDER,
@@ -31,12 +32,13 @@ export function OrderTable({ orders = [] }) {
       >
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-white">Recent Orders</h2>
-          <span
-            className="text-xs px-3 py-1 rounded-lg cursor-pointer"
+          <Link
+            to="/admin/orders"
+            className="text-xs px-3 py-1 rounded-lg cursor-pointer transition-colors duration-150 hover:opacity-80"
             style={{ background: "#1b1e2e", color: TEXT_MUTED }}
           >
             View All
-          </span>
+          </Link>
         </div>
         <table className="w-full text-sm">
           <thead>

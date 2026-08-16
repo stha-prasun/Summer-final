@@ -88,3 +88,91 @@ export const getDashboardStats = async () => {
     })),
   };
 };
+
+// ---------------------------------------------------------------------------
+// Admin Order Management
+// ---------------------------------------------------------------------------
+
+const shapeAdminOrder = (order) => {
+  const user = order.user || {};
+  return {
+    id: order._id,
+    customerName: user.name || 'Unknown',
+    customerEmail: user.email || '',
+    items: (order.items || []).map((item) => {
+      const product = item.product || {};
+      return {
+        name: product.name || 'Unknown',
+        series: product.series || '',
+        year: product.year || '',
+        price: item.price,
+        quantity: item.quantity,
+        category: product.category || '',
+        image: product.image || '',
+      };
+    }),
+    totalAmount: order.totalAmount,
+    status: order.status,
+    payment: order.payment ?? {},
+    createdAt: order.createdAt,
+    updatedAt: order.updatedAt,
+  };
+};
+
+export const adminGetAllOrders = async ({ status, search, page, limit }) => {
+  const query = {};
+  if (status && status !== 'all') {
+    query.status = status;
+  }
+
+  let ordersQuery = Order.find(query)
+    .populate('items.product')
+    .populate('user', 'name email')
+    .sort({ createdAt: -1 });
+
+  if (search) {
+    const regex = new RegExp(search, 'i');
+    const matchingUsers = await User.find({ name: regex }).select('_id').lean();
+    const userIds = matchingUsers.map((u) => u._id);
+    query.$or = [
+      { user: { $in: userIds } },
+    ];
+    ordersQuery = Order.find(query)
+      .populate('items.product')
+      .populate('user', 'name email')
+      .sort({ createdAt: -1 });
+  }
+
+  const total = await Order.countDocuments(query);
+  const skip = (page - 1) * limit;
+  const orders = await ordersQuery.skip(skip).limit(limit).lean();
+
+  return {
+    orders: orders.map(shapeAdminOrder),
+    total,
+    page,
+    totalPages: Math.ceil(total / limit),
+  };
+};
+
+export const adminGetOrderById = async (id) => {
+  const order = await Order.findById(id)
+    .populate('items.product')
+    .populate('user', 'name email')
+    .lean();
+  if (!order) return null;
+  return shapeAdminOrder(order);
+};
+
+export const adminUpdateOrderStatus = async (id, status) => {
+  const order = await Order.findByIdAndUpdate(
+    id,
+    { status },
+    { new: true },
+  )
+    .populate('items.product')
+    .populate('user', 'name email')
+    .lean();
+  if (!order) return null;
+  return shapeAdminOrder(order);
+};

@@ -4,7 +4,6 @@ import {
   LayoutDashboard,
   PlusCircle,
   Eye,
-  Users,
   CalendarClock,
   LogOut,
   } from "lucide-react";
@@ -35,8 +34,7 @@ export function Sidebar(){
           <NavItem icon={Eye} label="View Products" to="/admin/view-products" />
 
           <NavSection title="SALES & CUSTOMERS" />
-          <NavItem icon={Users} label="Customers" />
-          <NavItem icon={CalendarClock} label="Orders" />
+          <NavItem icon={CalendarClock} label="Orders" to="/admin/orders" />
         </div>
 
         <div className="flex items-center gap-3 px-3 py-2 text-sm cursor-pointer mt-auto" style={{ color: "#ef4444" }}>
