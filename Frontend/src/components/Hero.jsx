@@ -126,7 +126,7 @@ const Hero = ({ ready }) => {
           <div className="hero-accent-line opacity-0 w-12 h-[2px] bg-red-500 mt-6 mb-6 origin-center" />
 
           <p className="hero-subtitle opacity-0 font-body text-sm sm:text-base md:text-lg max-w-lg text-zinc-400 leading-relaxed tracking-wider font-light">
-            Unleash the Need for Speed — Every Collection Tells a Story
+            Unleash the Need for Speed Every Collection Tells a Story
           </p>
 
           <div className="hero-buttons flex flex-col sm:flex-row gap-4 mt-10">

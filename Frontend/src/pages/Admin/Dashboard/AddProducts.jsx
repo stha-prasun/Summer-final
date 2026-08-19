@@ -26,7 +26,7 @@ export default function AddProductPage() {
   return (
     <div
       className="flex w-full min-h-screen"
-      style={{ background: BG, fontFamily: "Inter, system-ui, sans-serif" }}
+      style={{ background: BG, fontFamily: "Fredoka, system-ui, sans-serif" }}
     >
       {/* Sidebar */}
       <Sidebar />

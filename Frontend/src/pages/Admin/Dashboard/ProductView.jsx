@@ -44,7 +44,7 @@ function DetailRow({ icon: Icon, label, value }) {
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-xs font-medium" style={{ color: TEXT_MUTED }}>{label}</p>
-        <p className="text-sm mt-0.5 break-words" style={{ color: TEXT_BODY }}>{value || "—"}</p>
+        <p className="text-sm mt-0.5 break-words" style={{ color: TEXT_BODY }}>{value}</p>
       </div>
     </div>
   );
@@ -90,7 +90,7 @@ export default function ProductView() {
   return (
     <div
       className="flex w-full min-h-screen"
-      style={{ background: BG, fontFamily: "Inter, system-ui, sans-serif" }}
+      style={{ background: BG, fontFamily: "Fredoka, system-ui, sans-serif" }}
     >
       <Sidebar />
 

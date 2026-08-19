@@ -112,19 +112,19 @@ export function OrderDetail({ order, onBack }) {
             <div className="flex justify-between">
               <span>Gateway</span>
               <span className="font-medium capitalize text-slate-700">
-                {pay.gateway || "—"}
+                {pay.gateway}
               </span>
             </div>
             <div className="flex justify-between">
               <span>Transaction ID</span>
               <span className="font-medium text-slate-700">
-                {pay.transactionId || "—"}
+                {pay.transactionId}
               </span>
             </div>
             <div className="flex justify-between">
               <span>Pidx</span>
               <span className="font-medium text-slate-700">
-                {pay.pidx || "—"}
+                {pay.pidx}
               </span>
             </div>
             <div className="flex justify-between border-t border-slate-100 pt-2">

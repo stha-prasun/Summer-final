@@ -87,7 +87,7 @@ export default function AdminOrders() {
   return (
     <div
       className="flex w-full min-h-screen"
-      style={{ background: "#0a0b14", fontFamily: "Inter, system-ui, sans-serif" }}
+      style={{ background: "#0a0b14", fontFamily: "Fredoka, system-ui, sans-serif" }}
     >
       <Sidebar />
       <main className="flex-1 px-8 py-6">
