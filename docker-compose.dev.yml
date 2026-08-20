@@ -1,20 +1,4 @@
 services:
-  frontend:
-    build: 
-      context: .
-      dockerfile: ./docker/frontend/Dockerfile
-    container_name: WheelsRUs_Frontend
-    ports:
-      - "5173:80"
-  backend:
-    build: 
-      context: .
-      dockerfile: ./docker/backend/Dockerfile
-    container_name: WheelsRUs_Backend
-    ports:
-      - "3000:3000"
-    env_file:
-      - ./Backend/.env
   mongodb:
     image: mongo:7
     container_name: summer-mongodb
@@ -83,7 +67,7 @@ services:
     image: grafana/promtail:latest
     container_name: summer-promtail
     volumes:
-      - ./promtail-config.yml:/etc/promtail/config.yml
+      - ./Backend/promtail-config.yml:/etc/promtail/config.yml
       - ./logs:/var/log/app
     depends_on:
       - loki
