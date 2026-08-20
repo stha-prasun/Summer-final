@@ -1,0 +1,95 @@
+services:
+  frontend:
+    build: 
+      context: .
+      dockerfile: ./docker/frontend/Dockerfile
+    container_name: WheelsRUs_Frontend
+    ports:
+      - "5173:80"
+  backend:
+    build: 
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    container_name: WheelsRUs_Backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./Backend/.env
+  mongodb:
+    image: mongo:7
+    container_name: summer-mongodb
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+
+  redis:
+    image: redis:7-alpine
+    container_name: summer-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: summer-redis-commander
+    ports:
+      - "8082:8081"
+    environment:
+      REDIS_HOSTS: local:summer-redis:6379
+    depends_on:
+      - redis
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: summer-mongo-express
+    ports:
+      - "8090:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
+      ME_CONFIG_MONGODB_URL: mongodb://admin:admin123@mongodb:27017/
+    depends_on:
+      - mongodb
+
+  loki:
+    image: grafana/loki:latest
+    container_name: summer-loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - loki_data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: summer-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+    depends_on:
+      - loki
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: summer-promtail
+    volumes:
+      - ./promtail-config.yml:/etc/promtail/config.yml
+      - ./logs:/var/log/app
+    depends_on:
+      - loki
+
+volumes:
+  mongodb_data:
+  redis_data:
+  loki_data:
+  grafana_data:

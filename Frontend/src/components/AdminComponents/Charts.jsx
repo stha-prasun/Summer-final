@@ -10,8 +10,8 @@ import {
   YAxis,
   CartesianGrid,
 } from "recharts";
-import { CARD_BG, CARD_BORDER, TEXT_MUTED } from "./theme";
-import { TABLE_BORDER } from "./theme";
+import { CARD_BG, CARD_BORDER, TEXT_MUTED } from "./Theme";
+import { TABLE_BORDER } from "./Theme";
 
 export function Charts({ monthlySales = [], categoryBreakdown = [] }) {
   const BAR_COLORS = ["#9333ea", "#3b82f6"];
