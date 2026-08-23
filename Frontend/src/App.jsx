@@ -15,6 +15,7 @@ import EditProductPage from "./pages/Admin/Dashboard/EditProduct";
 import AdminOrders from "./pages/Admin/Dashboard/Orders";
 import AdminOrderDetail from "./pages/Admin/Dashboard/OrderDetail";
 import AdminChat from "./pages/Admin/Dashboard/Chat";
+import AdminBulkEmail from "./pages/Admin/Dashboard/BulkEmail";
 import UserChat from "./pages/Users/Chat";
 import { UserLogin } from "./pages/Users/UserLogin";
 import { UserRegister } from "./pages/Users/UserRegister";
@@ -166,6 +167,14 @@ const App = () => {
           element: (
             <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
               <AdminChat />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/admin/bulk-email",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <AdminBulkEmail />
             </Suspense>
           ),
         },

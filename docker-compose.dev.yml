@@ -72,8 +72,21 @@ services:
     depends_on:
       - loki
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: summer-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
 volumes:
   mongodb_data:
   redis_data:
   loki_data:
   grafana_data:
+  rabbitmq_data:

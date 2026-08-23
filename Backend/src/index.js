@@ -7,6 +7,8 @@ import connectDB from './config/database.js';
 import redis from './config/redis.js';
 import { initSocket } from './config/socket.js';
 
+const { startBulkEmailWorker } = await import('./modules/bulkEmail/bulkEmail.worker.js');
+
 const PORT = process.env.PORT || 8000;
 
 const server = http.createServer(app);
@@ -19,6 +21,8 @@ connectDB().then(async () => {
   } catch (error) {
     logger.error('Redis connection failed', { error: error.message });
   }
+
+  await startBulkEmailWorker();
 
   server.listen(PORT, () => {
     logger.info(`Server running on port ${PORT}`);

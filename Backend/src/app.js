@@ -13,6 +13,7 @@ import paymentRoutes from './modules/payment/payment.routes.js';
 import orderRoutes from './modules/order/order.routes.js';
 import adminRoutes from './modules/admin/admin.routes.js';
 import chatRoutes from './modules/chat/chat.routes.js';
+import bulkEmailRoutes from './modules/bulkEmail/bulkEmail.routes.js';
 import { generalRateLimit } from './config/rateLimiter.js';
 
 import { Router } from 'express';
@@ -22,6 +23,7 @@ apiRouter.use(generalRateLimit);
 apiRouter.use('/contact', contactRoutes);
 apiRouter.use('/admin', authRoutes);
 apiRouter.use('/admin', adminRoutes);
+apiRouter.use('/admin', bulkEmailRoutes);
 apiRouter.use('/user', userRoutes);
 apiRouter.use('/products', productRoutes);
 apiRouter.use('/payment', paymentRoutes);
