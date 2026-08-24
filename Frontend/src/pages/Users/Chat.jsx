@@ -97,28 +97,28 @@ export default function UserChatPage() {
   };
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#F6F6F9] text-slate-800">
+    <div className="flex min-h-screen w-full flex-col bg-neutral-950 text-zinc-100">
       <UserNavbar />
 
       <div className="flex w-full flex-1 pt-16 md:pt-20">
         <main className="min-w-0 flex-1 px-5 py-6 sm:px-8">
-          <div className="mx-auto flex h-[calc(100vh-10rem)] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white shadow-sm">
+          <div className="mx-auto flex h-[calc(100vh-10rem)] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-neutral-900/60 border border-white/5 shadow-2xl shadow-black/40">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+            <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => navigate("/")}
-                  className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+                  className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition-colors hover:bg-white/10 hover:text-white"
                 >
                   <ArrowLeft size={16} />
                 </button>
                 <div className="flex items-center gap-2">
-                  <MessageCircle size={18} className="text-violet-600" />
+                  <MessageCircle size={18} className="text-red-500" />
                   <div>
-                    <h1 className="text-sm font-semibold text-slate-900">
+                    <h1 className="text-sm font-semibold text-white">
                       Chat with Admin
                     </h1>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-zinc-500">
                       We usually reply within a few hours
                     </p>
                   </div>
@@ -129,18 +129,18 @@ export default function UserChatPage() {
             {/* Messages */}
             <div
               ref={scrollRef}
-                  className="chat-scrollbar flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-3"
+                  className="chat-scrollbar flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-3 bg-neutral-950"
             >
               {loading ? (
                 <div className="flex flex-1 items-center justify-center">
                   <div
                     className="w-6 h-6 rounded-full border-2 border-t-transparent animate-spin"
-                    style={{ borderColor: "#cbd5e1 transparent #cbd5e1 #cbd5e1" }}
+                    style={{ borderColor: "#3f3f46 transparent #3f3f46 #3f3f46" }}
                   />
                 </div>
               ) : messages.length === 0 ? (
                 <div className="flex flex-1 items-center justify-center">
-                  <p className="text-sm text-center text-slate-400">
+                  <p className="text-sm text-center text-zinc-500">
                     No messages yet. Say hello to our support team!
                   </p>
                 </div>
@@ -153,11 +153,12 @@ export default function UserChatPage() {
                       className={`flex min-w-0 ${isMine ? "justify-end" : "justify-start"}`}
                     >
                       <div
-                        className="max-w-[75%] min-w-0 px-4 py-2.5 rounded-2xl text-sm leading-relaxed break-words"
+                        className="max-w-[75%] min-w-0 px-4 py-2.5 rounded-2xl text-sm leading-relaxed break-words border"
                         style={{
                           overflowWrap: "anywhere",
-                          background: isMine ? "#7c3aed" : "#f1f5f9",
-                          color: isMine ? "#ffffff" : "#334155",
+                          background: isMine ? "#dc2626" : "#27272a",
+                          color: isMine ? "#ffffff" : "#e4e4e7",
+                          borderColor: isMine ? "#ef4444" : "rgba(255,255,255,0.06)",
                           borderBottomRightRadius: isMine ? "4px" : "16px",
                           borderBottomLeftRadius: isMine ? "16px" : "4px",
                         }}
@@ -165,7 +166,7 @@ export default function UserChatPage() {
                         {msg.text}
                         <div
                           className={`mt-1 text-[10px] ${
-                            isMine ? "text-white/60" : "text-slate-400"
+                            isMine ? "text-white/60" : "text-zinc-500"
                           }`}
                         >
                           {new Date(msg.createdAt).toLocaleTimeString([], {
@@ -183,13 +184,13 @@ export default function UserChatPage() {
             {/* Input */}
             <form
               onSubmit={handleSend}
-              className="flex items-center gap-2 border-t border-slate-200 px-4 py-3"
+              className="flex items-center gap-2 border-t border-white/10 px-4 py-3 bg-neutral-900/60"
             >
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type a message..."
-                className="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none transition-colors focus:border-violet-400 focus:bg-white"
+                className="flex-1 rounded-xl border border-white/10 bg-neutral-800 px-4 py-2.5 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-red-500/50 focus:bg-neutral-800"
                 disabled={sending}
               />
               <button
@@ -197,8 +198,8 @@ export default function UserChatPage() {
                 disabled={!input.trim() || sending}
                 className="flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-150"
                 style={{
-                  background: input.trim() ? "#7c3aed" : "#f1f5f9",
-                  color: input.trim() ? "#ffffff" : "#94a3b8",
+                  background: input.trim() ? "#dc2626" : "#27272a",
+                  color: input.trim() ? "#ffffff" : "#71717a",
                   cursor: input.trim() ? "pointer" : "not-allowed",
                 }}
               >

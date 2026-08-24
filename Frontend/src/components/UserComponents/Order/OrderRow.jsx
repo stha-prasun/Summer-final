@@ -3,33 +3,21 @@ import { ProductThumb } from "./ProductThumb";
 import { Calendar, Tag } from "lucide-react";
 import { CATEGORY_TINT, STATUS_TINT } from "../../../utils/Constant";
 
-export function OrderRow({ order, onSelect, isHovered, onHover, onLeave }) {
+export function OrderRow({ order, onSelect }) {
   const t = orderTotals(order);
   return (
     <button
       onClick={() => onSelect(order.id)}
-      onMouseEnter={() => onHover(order.id)}
-      onMouseLeave={onLeave}
-      style={
-        isHovered
-          ? {
-              transform: "translateY(-2px)",
-              boxShadow: "0 6px 16px rgba(0,0,0,0.08)",
-            }
-          : undefined
-      }
-      className={`w-full rounded-2xl border-2 bg-white p-5 text-left transition-all duration-150 ${
-        isHovered ? "border-orange-400" : "border-slate-100"
-      }`}
+      className="w-full rounded-2xl border border-zinc-800 bg-neutral-900 p-5 text-left backdrop-blur-sm"
     >
       {/* Top row: order meta */}
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-3">
-          <span className="font-semibold text-slate-900">
+          <span className="font-semibold text-white">
             Orders : #{order.id}
           </span>
-          <span className="text-xs text-slate-400">{order.time}</span>
-          <span className="text-xs text-slate-500">
+          <span className="text-xs text-zinc-500">{order.time}</span>
+          <span className="text-xs text-zinc-400">
             Qty : {t.itemCount}
           </span>
         </div>
@@ -39,29 +27,31 @@ export function OrderRow({ order, onSelect, isHovered, onHover, onLeave }) {
           >
             {order.status}
           </span>
-          <span className="font-bold text-slate-900">
+          <span className="font-bold text-white">
             ${t.total.toFixed(2)}
           </span>
         </div>
       </div>
 
+      {/* Separator */}
+      <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
       {/* Item rows: essentials only — no finish/edition, no description */}
-      <div className="flex flex-col divide-y divide-slate-100 border-t border-slate-100">
+      <div className="flex flex-col divide-y divide-zinc-800 border-t border-zinc-800">
         {order.items.map((it, i) => (
           <div key={i} className="flex items-center gap-3 py-3">
             <ProductThumb image={it.image} />
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
-                <p className="text-sm font-semibold text-slate-900">
+                <p className="text-sm font-semibold text-white">
                   {it.name}
                 </p>
                 <span
-                  className={`rounded-full px-2 py-0.5 text-[10px] font-medium capitalize ${CATEGORY_TINT[it.category] ?? "bg-slate-100 text-slate-500"}`}
+                  className={`rounded-full px-2 py-0.5 text-[10px] font-medium capitalize ${CATEGORY_TINT[it.category] ?? "bg-zinc-800 text-zinc-400"}`}
                 >
                   {it.category}
                 </span>
               </div>
-              <div className="mt-1 flex items-center gap-3 text-[11px] text-slate-400">
+              <div className="mt-1 flex items-center gap-3 text-[11px] text-zinc-500">
                 <span className="flex items-center gap-1">
                   <Calendar size={11} /> {it.year}
                 </span>
@@ -71,7 +61,7 @@ export function OrderRow({ order, onSelect, isHovered, onHover, onLeave }) {
                 </span>
               </div>
             </div>
-            <p className="shrink-0 text-sm font-semibold text-slate-900">
+            <p className="shrink-0 text-sm font-semibold text-white">
               ${(Number(it.price) * it.qty).toFixed(2)}
             </p>
           </div>
