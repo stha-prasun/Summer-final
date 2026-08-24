@@ -57,14 +57,12 @@ export default function AddProductPage() {
               <Home size={14} />
             </Link>
             <ChevronRight size={13} />
-            <Link
-              to="/admin/add-products"
-              className="px-2.5 py-0.5 rounded-md text-xs font-medium transition-opacity duration-150 hover:opacity-80"
-              style={{ background: "rgba(124,58,237,0.18)", color: "#a78bfa" }}
+            <span
+              className="text-xs font-medium"
+              style={{ color: "#c7cad6" }}
             >
               Add Product
-            </Link>
-            {/* TO DO: CONVERT INTO LINK */}
+            </span>
           </div>
         </div>
         <ProductDetails />

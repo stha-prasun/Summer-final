@@ -111,8 +111,8 @@ export default function ViewProducts() {
             </Link>
             <ChevronRight size={13} />
             <span
-              className="px-2.5 py-0.5 rounded-md text-xs font-medium"
-              style={{ background: "rgba(124,58,237,0.18)", color: "#a78bfa" }}
+              className="text-xs font-medium"
+              style={{ color: "#c7cad6" }}
             >
               View Products
             </span>
