@@ -30,6 +30,7 @@ const ModelPage = lazy(() => import("./pages/ModelPage"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Collection = lazy(() => import("./pages/Collection"));
 const About = lazy(() => import("./pages/About"));
+const Game = lazy(() => import("./pages/Game"));
 
 function RootLayout() {
   return (
@@ -232,6 +233,14 @@ const App = () => {
           element: (
             <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
               <PaymentVerify />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/game",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <Game />
             </Suspense>
           ),
         },

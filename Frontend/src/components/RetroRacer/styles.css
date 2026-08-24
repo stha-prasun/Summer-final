@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
 .retro-racer-root {
   --retro-bg: #1a1a24;
   --retro-panel: #20202c;
@@ -14,6 +16,16 @@
   border-radius: 6px;
   box-shadow: 0 0 0 3px #3a3a48, 0 10px 30px rgba(0, 0, 0, 0.6);
   overflow: hidden;
+  font-family: "Press Start 2P", "Courier New", ui-monospace, monospace;
+}
+
+/* Frontend globally hides cursor on pointer:fine – re-enable for the retro game */
+.retro-racer-root *,
+.retro-racer-root .retro-btn {
+  cursor: pointer !important;
+}
+.retro-racer-root canvas {
+  cursor: default !important;
 }
 
 .retro-hud {

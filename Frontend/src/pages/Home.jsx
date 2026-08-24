@@ -114,9 +114,12 @@ const Home = () => {
           <p className="font-body text-xs md:text-sm text-zinc-500 max-w-md mx-auto mb-10 leading-relaxed">
             From track-day legends to street-racer icons — the models you grew up with, now in 1:64 scale.
           </p>
-          <div className="inline-flex items-center gap-2 font-body text-[11px] uppercase tracking-[0.35em] text-zinc-500 border border-zinc-800 px-8 py-4">
-            Coming Soon
-          </div>
+          <Link
+            to="/game"
+            className="inline-block font-body text-[11px] uppercase tracking-[0.35em] text-white bg-red-500/90 hover:bg-red-500 px-8 py-4 transition-all duration-500"
+          >
+            Play Now
+          </Link>
         </div>
       </section>
 
