@@ -20,8 +20,8 @@ services:
   mongodb:
     image: mongo:7
     container_name: summer-mongodb
-    ports:
-      - "27018:27017"
+    expose:
+      - "27018"
     volumes:
       - mongodb_data:/data/db
     environment:
@@ -31,10 +31,22 @@ services:
   redis:
     image: redis:7-alpine
     container_name: summer-redis
-    ports:
-      - "6379:6379"
+    expose:
+      - "6379"
     volumes:
       - redis_data:/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: summer-rabbitmq
+    expose:
+      - "5672"
+      - "15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 
 volumes:
   mongodb_data:
