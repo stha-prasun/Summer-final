@@ -29,6 +29,7 @@ import OrderById from "./pages/Users/Order/OrderById";
 const ModelPage = lazy(() => import("./pages/ModelPage"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Collection = lazy(() => import("./pages/Collection"));
+const About = lazy(() => import("./pages/About"));
 
 function RootLayout() {
   return (
@@ -71,6 +72,14 @@ const App = () => {
           element: (
             <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
               <Contact />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/about",
+          element: (
+            <Suspense fallback={<div className="h-screen bg-neutral-950" />}>
+              <About />
             </Suspense>
           ),
         },
