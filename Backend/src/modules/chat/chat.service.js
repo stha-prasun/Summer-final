@@ -1,10 +1,11 @@
 import { Conversation, Message } from './chat.model.js';
+import { createConversation, createMessage } from './factory/chat.factory.js';
 
 export const getOrCreateConversation = async (userId) => {
   let convo = await Conversation.findOne({ user: userId }).lean();
   if (!convo) {
-    convo = await Conversation.create({ user: userId });
-    convo = convo.toObject();
+    convo = await createConversation(userId);
+    convo = (await convo.save()).toObject();
   }
   return convo;
 };
@@ -32,12 +33,13 @@ export const getMessages = async (conversationId, userId, role) => {
 };
 
 export const sendMessage = async ({ conversationId, sender, senderId, text }) => {
-  const message = await Message.create({
+  const messageDoc = createMessage({
     conversation: conversationId,
     sender,
     senderId,
     text,
   });
+  const message = (await messageDoc.save()).toObject();
 
   const update = {
     lastMessage: text,
@@ -52,7 +54,7 @@ export const sendMessage = async ({ conversationId, sender, senderId, text }) =>
 
   await Conversation.findByIdAndUpdate(conversationId, update);
 
-  return message.toObject();
+  return message;
 };
 
 export const markAsRead = async (conversationId, role) => {
