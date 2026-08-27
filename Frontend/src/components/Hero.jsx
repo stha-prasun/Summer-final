@@ -328,7 +328,10 @@ const Hero = ({ ready }) => {
               <span className="relative z-10">Explore Collection</span>
               <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </button>
-            <button className="opacity-0 group relative px-10 py-3.5 md:px-14 md:py-4 border border-zinc-600 hover:border-zinc-400 text-zinc-400 hover:text-white rounded-none text-sm md:text-base font-semibold cursor-pointer uppercase tracking-[0.2em] transition-all duration-300 bg-black/30">
+            <button
+              onClick={() => window.open('https://youtu.be/jNQXAC9IVRw?si=zKzmRO0-UgcSl9O3', '_blank', 'noopener,noreferrer')}
+              className="opacity-0 group relative px-10 py-3.5 md:px-14 md:py-4 border border-zinc-600 hover:border-zinc-400 text-zinc-400 hover:text-white rounded-none text-sm md:text-base font-semibold cursor-pointer uppercase tracking-[0.2em] transition-all duration-300 bg-black/30"
+            >
               <span className="relative z-10">Watch Trailer</span>
             </button>
           </div>
