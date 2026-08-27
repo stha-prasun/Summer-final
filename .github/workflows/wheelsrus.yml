@@ -1,0 +1,71 @@
+name: wheelsrus
+
+on: 
+    push:
+        # branches:
+        #     - main
+    pull_request:
+        # branches:
+        #     - main
+    
+
+jobs:
+    # test:
+    #   runs-on: ubuntu-latest
+    #   steps: 
+    #     - name: Checkout code
+    #       uses: actions/checkout@v3
+
+    #     - name: Setting up node
+    #       uses: actions/setup-node@v4
+    #       with:
+    #         node-version: '20'
+    #         cache: 'npm'
+    #         cache-dependency-path: Backend/package-lock.json
+            
+    #     - name: dependency installation
+    #       working-directory: ./Backend
+    #       run: npm ci
+        
+    #     - name: Running all the tets
+    #       working-directory: ./Backend
+    #       run: npm run  test
+
+      
+    build:
+        # needs: test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: get Build info
+              id: build-info
+              run: |
+                echo "version=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+                echo "build_time=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
+            
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v2
+
+            - name: Log in to Dockerhub
+              uses: docker/login-action@v2
+              with:
+                username: ${{ secrets.DOCKERHUB_USERNAME}}
+                password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: Build and push backend image
+              uses: docker/build-push-action@v5
+              with:
+                context: .
+                file: docker/backend/Dockerfile
+                platforms: linux/amd64,linux/arm64 
+                push: true
+                tags: |
+                    ${{ secrets.DOCKERHUB_USERNAME }}/bitclip-backend:latest
+                    ${{ secrets.DOCKERHUB_USERNAME }}/bitclip-backend:${{ steps.build-info.outputs.version }}
+                build-args: |
+                  VERSION=${{ steps.build-info.outputs.version }}
+                  BUILD_TIME=${{ steps.build-info.outputs.build_time }}
+      

@@ -1,0 +1,168 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+.retro-racer-root {
+  --retro-bg: #1a1a24;
+  --retro-panel: #20202c;
+  --retro-border: #0d0d12;
+  --retro-yellow: #f2c230;
+  --retro-white: #f2f0e6;
+
+  display: flex;
+  flex-direction: column;
+  width: min(420px, 100%);
+  margin: 0 auto;
+  background: var(--retro-bg);
+  border: 3px solid var(--retro-border);
+  border-radius: 6px;
+  box-shadow: 0 0 0 3px #3a3a48, 0 10px 30px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  font-family: "Press Start 2P", "Courier New", ui-monospace, monospace;
+}
+
+/* Frontend globally hides cursor on pointer:fine – re-enable for the retro game */
+.retro-racer-root *,
+.retro-racer-root .retro-btn {
+  cursor: pointer !important;
+}
+.retro-racer-root canvas {
+  cursor: default !important;
+}
+
+.retro-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 12px;
+  background: var(--retro-panel);
+  border-bottom: 3px solid var(--retro-border);
+}
+
+.retro-title {
+  font-size: 12px;
+  color: var(--retro-yellow);
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 0 #000;
+}
+
+.retro-score {
+  font-size: 11px;
+  color: var(--retro-white);
+  text-shadow: 2px 2px 0 #000;
+}
+
+.retro-game-area {
+  position: relative;
+  line-height: 0;
+}
+
+.retro-game-area canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.retro-btn {
+  font-family: inherit;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--retro-border);
+  background: var(--retro-yellow);
+  border: 3px solid var(--retro-border);
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  box-shadow: inset -3px -3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.retro-btn:hover {
+  filter: brightness(1.1);
+}
+
+.retro-btn:active {
+  box-shadow: inset 3px 3px 0 rgba(0, 0, 0, 0.35);
+  transform: translateY(1px);
+}
+
+.retro-btn:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+.retro-btn-primary {
+  font-size: 14px;
+  padding: 12px 22px;
+}
+
+.retro-btn-back {
+  padding: 6px 10px;
+  font-size: 10px;
+}
+
+.retro-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: rgba(10, 10, 16, 0.82);
+  line-height: 1.4;
+  text-align: center;
+  padding: 20px;
+}
+
+.retro-overlay-title {
+  margin: 0;
+  font-size: 24px;
+  color: var(--retro-yellow);
+  text-shadow: 3px 3px 0 #000;
+}
+
+.retro-overlay-title-danger {
+  color: #ff4a4a;
+}
+
+.retro-final-score {
+  margin: 0;
+  font-size: 16px;
+  color: var(--retro-white);
+  text-shadow: 2px 2px 0 #000;
+}
+
+.retro-best {
+  margin: 0;
+  font-size: 11px;
+  color: #9ad0ff;
+  text-shadow: 2px 2px 0 #000;
+}
+
+.retro-new-best {
+  margin: 0;
+  font-size: 14px;
+  color: #6dff6d;
+  text-shadow: 2px 2px 0 #000;
+}
+
+.retro-overlay-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.retro-instructions {
+  margin: 0;
+  font-size: 10px;
+  color: var(--retro-white);
+  text-shadow: 2px 2px 0 #000;
+}
+
+.retro-instructions-dim {
+  color: #8a8a9a;
+}

@@ -1,29 +1,29 @@
+import { Link } from "react-router-dom";
 import {
   CARD_BG,
   CARD_BORDER,
   TEXT_MUTED,
-  STATUS_STYLES,
   TABLE_BORDER,
 } from "./Theme";
 
-export function OrderTable() {
-    const RECENT_ORDERS = [
-  { model: "'71 Datsun 510", ref: "WHL-008", customer: "Marco Fields", date: "Dec 18", price: "Rs. 749", status: "Delivered" },
-  { model: "Bone Shaker", ref: "WHL-003", customer: "Priya Shah", date: "Dec 17", price: "Rs. 699", status: "Shipped" },
-  { model: "Rodger Dodger", ref: "WHL-006", customer: "Leo Whitfield", date: "Dec 16", price: "Rs. 699", status: "Processing" },
-  { model: "Twin Mill", ref: "WHL-002", customer: "Ana Brooks", date: "Dec 15", price: "Rs. 699", status: "Delivered" },
-  { model: "'69 Camaro", ref: "WHL-001", customer: "Jonas Reyes", date: "Dec 14", price: "Rs. 699", status: "Shipped" },
-];
-const MODELS = [
-    { name: "'69 Camaro", sold: 8, color: "#e8291c" },
-    { name: "Twin Mill", sold: 5, color: "#9333ea" },
-    { name: "Bone Shaker", sold: 10, color: "#10b981" },
-    { name: "Deora II", sold: 6, color: "#1a9fd8" },
-    { name: "'57 Chevy", sold: 7, color: "#eab308" },
-    { name: "Rodger Dodger", sold: 9, color: "#f2600c" },
-    { name: "'70 Superbird", sold: 4, color: "#9ca3af" },
-    { name: "'71 Datsun 510", sold: 12, color: "#e0115f" },
-  ];
+const STATUS_STYLES = {
+  Delivered: { bg: "rgba(16,185,129,0.15)", color: "#34d399" },
+  Shipped: { bg: "rgba(26,159,216,0.15)", color: "#38bdf8" },
+  Processing: { bg: "rgba(234,179,8,0.15)", color: "#fbbf24" },
+  paid: { bg: "rgba(16,185,129,0.15)", color: "#34d399" },
+  pending: { bg: "rgba(234,179,8,0.15)", color: "#fbbf24" },
+  failed: { bg: "rgba(239,68,68,0.15)", color: "#ef4444" },
+  cancelled: { bg: "rgba(156,163,175,0.15)", color: "#9ca3af" },
+};
+
+const CATEGORY_COLORS = {
+  muscle: "#e8291c",
+  imports: "#1a9fd8",
+  exotics: "#f2b705",
+  originals: "#10b981",
+};
+
+export function OrderTable({ orders = [] }) {
   return (
     <>
       <div
@@ -32,63 +32,64 @@ const MODELS = [
       >
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-white">Recent Orders</h2>
-          <span
-            className="text-xs px-3 py-1 rounded-lg cursor-pointer"
+          <Link
+            to="/admin/orders"
+            className="text-xs px-3 py-1 rounded-lg cursor-pointer transition-colors duration-150 hover:opacity-80"
             style={{ background: "#1b1e2e", color: TEXT_MUTED }}
           >
             View All
-          </span>
+          </Link>
         </div>
         <table className="w-full text-sm">
           <thead>
             <tr style={{ color: TEXT_MUTED }}>
               <th className="text-left font-medium pb-3">Model</th>
-              <th className="text-left font-medium pb-3">Ref</th>
               <th className="text-left font-medium pb-3">Order Date</th>
-              <th className="text-left font-medium pb-3">Price</th>
-              <th className="text-left font-medium pb-3">Customer</th>
+              <th className="text-left font-medium pb-3">Amount</th>
               <th className="text-left font-medium pb-3">Status</th>
             </tr>
           </thead>
           <tbody>
-            {RECENT_ORDERS.map((o) => {
-              const modelInfo = MODELS.find((m) => m.name === o.model);
-              const st = STATUS_STYLES[o.status];
-              return (
-                <tr
-                  key={o.ref}
-                  style={{ borderTop: `1px solid ${TABLE_BORDER}` }}
-                >
-                  <td className="py-3 flex items-center gap-2 text-white">
-                    <span
-                      className="w-2.5 h-2.5 rounded-full"
-                      style={{ background: modelInfo?.color || "#666" }}
-                    />
-                    {o.model}
-                  </td>
-                  <td className="py-3" style={{ color: TEXT_MUTED }}>
-                    {o.ref}
-                  </td>
-                  <td className="py-3" style={{ color: TEXT_MUTED }}>
-                    {o.date}
-                  </td>
-                  <td className="py-3" style={{ color: "#c7cad6" }}>
-                    {o.price}
-                  </td>
-                  <td className="py-3" style={{ color: "#c7cad6" }}>
-                    {o.customer}
-                  </td>
-                  <td className="py-3">
-                    <span
-                      className="px-2.5 py-1 rounded-full text-xs font-medium"
-                      style={{ background: st.bg, color: st.color }}
-                    >
-                      {o.status}
-                    </span>
-                  </td>
-                </tr>
-              );
-            })}
+            {orders.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="py-8 text-center" style={{ color: TEXT_MUTED }}>
+                  No orders yet
+                </td>
+              </tr>
+            ) : (
+              orders.map((o) => {
+                const st = STATUS_STYLES[o.status] || STATUS_STYLES.pending;
+                const catColor = CATEGORY_COLORS[o.category] || "#666";
+                return (
+                  <tr
+                    key={o.id}
+                    style={{ borderTop: `1px solid ${TABLE_BORDER}` }}
+                  >
+                    <td className="py-3 flex items-center gap-2 text-white">
+                      <span
+                        className="w-2.5 h-2.5 rounded-full"
+                        style={{ background: catColor }}
+                      />
+                      {o.model}
+                    </td>
+                    <td className="py-3" style={{ color: TEXT_MUTED }}>
+                      {o.date}
+                    </td>
+                    <td className="py-3" style={{ color: "#c7cad6" }}>
+                      {o.price}
+                    </td>
+                    <td className="py-3">
+                      <span
+                        className="px-2.5 py-1 rounded-full text-xs font-medium"
+                        style={{ background: st.bg, color: st.color }}
+                      >
+                        {o.status}
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
       </div>

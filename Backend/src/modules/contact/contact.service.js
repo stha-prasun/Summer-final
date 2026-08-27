@@ -1,9 +1,10 @@
-import { Contact } from './contact.model.js';
 import { resend } from '../../config/resend.js';
 import logger from '../../config/logger.js';
+import { createContact } from './factory/contact.factory.js';
 
 export const submitContact = async ({ name, email, subject, message }) => {
-  const contact = await Contact.create({ name, email, subject, message });
+  const contactDoc = createContact({ name, email, subject, message });
+  const contact = await contactDoc.save();
 
   try {
     await resend.emails.send({

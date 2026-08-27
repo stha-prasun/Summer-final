@@ -142,7 +142,7 @@ const ModelViewer = () => {
             Drag to explore · Scroll to zoom
           </span>
           <span className="font-body text-[10px] md:text-xs uppercase tracking-[0.3em] text-zinc-700">
-            K.I.T.T. — Hot Wheels Unleashed
+            K.I.T.T. Hot Wheels Unleashed
           </span>
         </div>
       </div>

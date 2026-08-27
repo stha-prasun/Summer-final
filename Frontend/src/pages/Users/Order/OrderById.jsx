@@ -11,17 +11,17 @@ export default function OrderById() {
   const { order, loading, error } = useGetOrderById(id);
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#F6F6F9] text-slate-800">
+    <div className="flex min-h-screen w-full flex-col bg-neutral-950 text-zinc-100">
       <UserNavbar />
 
       <div className="flex w-full flex-1 pt-16 md:pt-20">
         <main className="min-w-0 flex-1 px-5 py-6 sm:px-8">
-          {loading ? null : error ? (
-            <div className="text-red-500">Error: {error}</div>
+          {loading ? <div className="text-zinc-500">Loading...</div> : error ? (
+            <div className="text-red-400">Error: {error}</div>
           ) : order ? (
             <OrderDetail order={order} onBack={() => navigate("/orders")} />
           ) : (
-            <div>Order not found.</div>
+            <div className="text-zinc-500">Order not found.</div>
           )}
         </main>
       </div>

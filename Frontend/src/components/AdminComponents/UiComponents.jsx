@@ -1,5 +1,5 @@
 import React from "react";
-import { ChevronDown, ArrowUpRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import {
   CARD_BG,
   CARD_BORDER,
@@ -45,7 +45,7 @@ export function NavItem({ to = "#", icon: Icon, label, indent, badge, hasChevron
   return (
     <Link
       to={to}
-      className="flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors duration-150"
+      className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors duration-150 group ${isActive ? "" : "hover:bg-white/[0.06] hover:text-white"}`}
       style={{
         marginLeft: indent ? 20 : 0,
         background: isActive ? PRIMARY_GRADIENT : "transparent",
@@ -54,7 +54,7 @@ export function NavItem({ to = "#", icon: Icon, label, indent, badge, hasChevron
       }}
     >
       <div className="flex items-center gap-3">
-        {Icon && <Icon size={17} />}
+        {Icon && <Icon size={17} className="transition-transform duration-200 group-hover:scale-110" />}
         <span>{label}</span>
       </div>
       
@@ -136,13 +136,10 @@ export function StatCard({ label, value, suffix, percent, gradient, Icon }) {
       className="rounded-2xl p-5 flex-1"
       style={{ background: "linear-gradient(155deg, #171a2b 0%, #12141f 100%)", border: `1px solid ${CARD_BORDER}` }}
     >
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-start mb-4">
         <span className="text-xs font-semibold tracking-widest" style={{ color: TEXT_MUTED, letterSpacing: "0.1em" }}>
           {label}
         </span>
-        <div className="w-7 h-7 rounded-full flex items-center justify-center" style={{ border: "1px solid #33374d", color: TEXT_MUTED }}>
-          <ArrowUpRight size={14} />
-        </div>
       </div>
       <div className="flex items-end justify-between">
         <div className="flex items-center gap-3">

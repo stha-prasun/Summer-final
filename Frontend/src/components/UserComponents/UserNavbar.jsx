@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FiShoppingCart, FiLogOut } from "react-icons/fi";
+import { FiShoppingCart, FiLogOut, FiMessageCircle } from "react-icons/fi";
 import gsap from "gsap";
 
 const UserNavbar = () => {
@@ -37,20 +37,20 @@ const UserNavbar = () => {
 
   const linkClass = (active) =>
     `text-xs uppercase tracking-[0.2em] relative transition-colors duration-300 font-semibold ${
-      active ? "text-slate-900" : "text-slate-700 hover:text-slate-900"
+      active ? "text-white" : "text-zinc-400 hover:text-white"
     }`;
 
   return (
     <nav
       ref={navRef}
-      className="fixed top-0 left-0 right-0 z-50 opacity-0 bg-white backdrop-blur-md border-b border-slate-300 shadow-sm shadow-slate-900/5 transition-all duration-700"
+      className="fixed top-0 left-0 right-0 z-50 opacity-0 bg-black/90 backdrop-blur-xl border-b border-white/[0.06] shadow-2xl shadow-black/40 transition-all duration-700"
     >
       <div className="max-w-6xl mx-auto px-6 md:px-10">
         <div className="flex items-center justify-between h-16 md:h-[4.5rem]">
           <div className="flex items-center gap-8 lg:gap-12">
             <Link
               to="/"
-              className="font-display text-xl md:text-2xl tracking-[0.18em] text-slate-900 uppercase hover:text-red-500 transition-colors duration-300"
+              className="font-display text-xl md:text-2xl tracking-[0.18em] text-white uppercase hover:text-red-400 transition-colors duration-300"
             >
               WheelsRUs
             </Link>
@@ -60,7 +60,7 @@ const UserNavbar = () => {
                 <Link
                   key={to}
                   to={to}
-                  className={`${linkClass(location.pathname === to)} group py-1`}
+                  className={`${linkClass(location.pathname === to)} group`}
                 >
                   {label}
                   <span
@@ -77,15 +77,22 @@ const UserNavbar = () => {
 
           <div className="hidden md:flex items-center gap-3">
             <Link
+              to="/chat"
+              className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-300 hover:border-white/20 hover:text-white transition-colors duration-300"
+            >
+              <FiMessageCircle size={14} />
+              Chat
+            </Link>
+            <Link
               to="/cart"
-              className="flex items-center gap-2 px-4 py-2 rounded-full border border-slate-300 text-xs font-semibold uppercase tracking-[0.2em] text-slate-800 hover:border-slate-900 hover:text-slate-900 transition-colors duration-300"
+              className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-300 hover:border-white/20 hover:text-white transition-colors duration-300"
             >
               <FiShoppingCart size={14} />
               Cart{cartCount > 0 ? ` (${cartCount})` : ""}
             </Link>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:text-red-500 transition-colors duration-300"
+              className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-[0.2em] text-zinc-400 hover:text-red-400 transition-colors duration-300"
             >
               <FiLogOut size={13} />
               Log out
@@ -97,21 +104,21 @@ const UserNavbar = () => {
             className="md:hidden flex flex-col gap-[5px] p-1.5 group cursor-pointer items-end"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
           >
-            <span className={`block w-5 h-[1px] bg-slate-700 transition-all duration-300 origin-center ${menuOpen ? "rotate-45 translate-y-[5px] w-full" : ""}`} />
-            <span className={`block w-3.5 h-[1px] bg-slate-700 transition-all duration-300 ${menuOpen ? "opacity-0" : "group-hover:w-5"}`} />
-            <span className={`block w-4 h-[1px] bg-slate-700 transition-all duration-300 origin-center ${menuOpen ? "-rotate-45 -translate-y-[5px] w-full" : "group-hover:w-5"}`} />
+            <span className={`block w-5 h-[1px] bg-zinc-300 transition-all duration-300 origin-center ${menuOpen ? "rotate-45 translate-y-[5px] w-full" : ""}`} />
+            <span className={`block w-3.5 h-[1px] bg-zinc-300 transition-all duration-300 ${menuOpen ? "opacity-0" : "group-hover:w-5"}`} />
+            <span className={`block w-4 h-[1px] bg-zinc-300 transition-all duration-300 origin-center ${menuOpen ? "-rotate-45 -translate-y-[5px] w-full" : "group-hover:w-5"}`} />
           </button>
         </div>
 
         <div className={`md:hidden overflow-hidden transition-all duration-400 ease-in-out ${menuOpen ? "max-h-64" : "max-h-0"}`}>
-          <div className="pb-4 pt-2 border-t border-slate-100 flex flex-col gap-3">
+          <div className="pb-4 pt-2 border-t border-white/[0.06] flex flex-col gap-3">
             {navLinks.map(({ to, label }) => (
               <Link
                 key={to}
                 to={to}
                 onClick={() => setMenuOpen(false)}
-                className={`text-xs font-semibold uppercase tracking-[0.2em] ${
-                  location.pathname === to ? "text-slate-900" : "text-slate-700"
+                className={`block py-2.5 px-2 -mx-2 rounded-md text-xs font-semibold uppercase tracking-[0.2em] ${
+                  location.pathname === to ? "text-white" : "text-zinc-400"
                 }`}
               >
                 {label}
@@ -120,16 +127,25 @@ const UserNavbar = () => {
             <Link
               to="/cart"
               onClick={() => setMenuOpen(false)}
-              className={`text-xs font-semibold uppercase tracking-[0.2em] ${
-                location.pathname === "/cart" ? "text-slate-900" : "text-slate-700"
+              className={`block py-2.5 px-2 -mx-2 rounded-md text-xs font-semibold uppercase tracking-[0.2em] ${
+                location.pathname === "/cart" ? "text-white" : "text-zinc-400"
               }`}
             >
               Cart{cartCount > 0 ? ` (${cartCount})` : ""}
             </Link>
-            <div className="pt-3 border-t border-slate-100">
+            <Link
+              to="/chat"
+              onClick={() => setMenuOpen(false)}
+              className={`block py-2.5 px-2 -mx-2 rounded-md text-xs font-semibold uppercase tracking-[0.2em] ${
+                location.pathname === "/chat" ? "text-white" : "text-zinc-400"
+              }`}
+            >
+              Chat
+            </Link>
+            <div className="pt-3 border-t border-white/[0.06]">
               <button
                 onClick={handleLogout}
-                className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:text-red-500 transition-colors"
+                className="block w-full text-left py-2.5 px-2 -mx-2 rounded-md text-xs font-semibold uppercase tracking-[0.2em] text-zinc-400 hover:text-red-400 transition-colors"
               >
                 Log out
               </button>
@@ -137,6 +153,7 @@ const UserNavbar = () => {
           </div>
         </div>
       </div>
+      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/30 to-transparent opacity-100" />
     </nav>
   );
 };

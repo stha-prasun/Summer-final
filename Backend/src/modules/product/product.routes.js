@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticate } from '../auth/auth.middleware.js';
+import { authenticate, isAdmin } from '../auth/auth.middleware.js';
 import upload from '../../config/multer.js';
 import { addProduct, getProduct, getAllProducts, updateProduct, deleteProduct } from './product.controller.js';
 
@@ -109,7 +109,7 @@ router.get('/:id', getProduct);
  *       401:
  *         description: Unauthorized
  */
-router.post('/', authenticate, handleUpload, addProduct);
+router.post('/', authenticate, isAdmin, handleUpload, addProduct);
 
 /**
  * @openapi
@@ -162,7 +162,7 @@ router.post('/', authenticate, handleUpload, addProduct);
  *       404:
  *         description: Product not found
  */
-router.put('/:id', authenticate, handleUpload, updateProduct);
+router.put('/:id', authenticate, isAdmin, handleUpload, updateProduct);
 
 /**
  * @openapi
@@ -186,6 +186,6 @@ router.put('/:id', authenticate, handleUpload, updateProduct);
  *       404:
  *         description: Product not found
  */
-router.delete('/:id', authenticate, deleteProduct);
+router.delete('/:id', authenticate, isAdmin, deleteProduct);
 
 export default router;

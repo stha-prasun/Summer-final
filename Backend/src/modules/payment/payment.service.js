@@ -1,5 +1,6 @@
-import { Order } from '../order/order.model.js';
 import { Product } from '../product/product.model.js';
+import { Order } from '../order/order.model.js';
+import { createOrder, applyOrderPaymentUpdate } from '../order/factory/order.factory.js';
 import { clearUserOrdersCache } from '../order/order.service.js';
 
 const KHALTI_PAYMENT_URL = process.env.KHALTI_PAYMENT_URL;
@@ -53,11 +54,12 @@ export const initiatePayment = async ({ userId, items, customer }) => {
     0
   );
 
-  const order = await Order.create({
+  const orderDoc = createOrder({
     user: userId,
     items: orderItems,
     totalAmount,
   });
+  const order = await orderDoc.save();
 
   const response = await fetch(KHALTI_PAYMENT_URL, {
     method: 'POST',
@@ -83,8 +85,7 @@ export const initiatePayment = async ({ userId, items, customer }) => {
     throw new Error('Khalti did not return a payment URL');
   }
 
-  order.payment.pidx = data.pidx;
-  order.payment.status = 'initiated';
+  applyOrderPaymentUpdate(order, { pidx: data.pidx, status: 'initiated' });
   await order.save();
   await clearUserOrdersCache(userId);
 
@@ -114,9 +115,11 @@ export const verifyPayment = async ({ pidx }) => {
   const order = await Order.findOne({ 'payment.pidx': pidx });
 
   if (order) {
-    order.payment.transactionId = transaction_id || '';
-    order.payment.amount = total_amount || 0;
-    order.payment.status = status || 'failed';
+    applyOrderPaymentUpdate(order, {
+      transactionId: transaction_id || '',
+      amount: total_amount || 0,
+      status: status || 'failed',
+    });
 
     if (status === 'Completed') {
       order.status = 'paid';

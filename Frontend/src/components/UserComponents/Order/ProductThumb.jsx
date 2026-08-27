@@ -15,9 +15,9 @@ export function ProductThumb({ image, size = "md" }) {
   }
   return (
     <div
-      className={`flex ${dims} shrink-0 items-center justify-center rounded-xl bg-slate-100`}
+      className={`flex ${dims} shrink-0 items-center justify-center rounded-xl bg-neutral-800 border border-white/5`}
     >
-      <Car size={iconSize} className="text-slate-500" />
+      <Car size={iconSize} className="text-zinc-500" />
     </div>
   );
 }

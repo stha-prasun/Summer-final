@@ -3,11 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FiTrash2, FiMinus, FiPlus, FiShoppingBag } from 'react-icons/fi';
 import { updateQuantity, removeFromCart, clearCart } from '../../redux/cartSlice';
 import { parsePrice, formatPrice } from '../../utils/price';
+import Navbar from '../../components/Navbar';
+import UserNavbar from '../../components/UserComponents/UserNavbar';
+import Footer from '../../components/Footer';
 
 export function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const items = useSelector((state) => state.Cart.items);
+  const user = useSelector((state) => state.User?.loggedInUser);
+  const TopNav = user ? UserNavbar : Navbar;
 
   const total = items.reduce(
     (sum, item) => sum + parsePrice(item.product.price) * item.quantity,
@@ -16,22 +21,28 @@ export function Cart() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-neutral-950 flex flex-col items-center justify-center gap-6 px-4">
-        <FiShoppingBag className="text-zinc-600" size={64} />
-        <h2 className="text-2xl font-display tracking-wider text-zinc-400 uppercase">Your cart is empty</h2>
-        <p className="text-zinc-600 text-sm">Looks like you haven't added anything yet.</p>
-        <Link
-          to="/collection"
-          className="mt-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold px-6 py-3 rounded-lg transition-colors"
-        >
-          Browse Collection
-        </Link>
-      </div>
+      <>
+        <TopNav />
+        <div className="min-h-screen bg-neutral-950 flex flex-col items-center justify-center gap-6 px-4 pt-16">
+          <FiShoppingBag className="text-zinc-600" size={64} />
+          <h2 className="text-2xl font-display tracking-wider text-zinc-400 uppercase">Your cart is empty</h2>
+          <p className="text-zinc-600 text-sm">Looks like you haven't added anything yet.</p>
+          <Link
+            to="/collection"
+            className="mt-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold px-6 py-3 rounded-lg transition-colors"
+          >
+            Browse Collection
+          </Link>
+        </div>
+        <Footer />
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-neutral-950 pt-24 pb-16 px-4 md:px-8">
+    <>
+      <TopNav />
+      <div className="min-h-screen bg-neutral-950 pt-24 pb-16 px-4 md:px-8">
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl md:text-3xl font-display tracking-wider text-white uppercase">
@@ -130,5 +141,7 @@ export function Cart() {
         </div>
       </div>
     </div>
+      <Footer />
+    </>
   );
 }

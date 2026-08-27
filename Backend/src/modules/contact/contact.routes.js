@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { submit } from './contact.controller.js';
+import { contactRateLimit } from '../../config/rateLimiter.js';
 
 const router = Router();
 
@@ -31,6 +32,6 @@ const router = Router();
  *       400:
  *         description: Missing required fields
  */
-router.post('/', submit);
+router.post('/', contactRateLimit, submit);
 
 export default router;

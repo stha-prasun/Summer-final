@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { login, refresh } from "./auth.controller.js";
+import { authRateLimit } from "../../config/rateLimiter.js";
 
 const router = Router();
 
@@ -27,7 +28,7 @@ const router = Router();
  *       400:
  *         description: Invalid credentials
  */
-router.post("/login", login);
+router.post("/login", authRateLimit, login);
 
 /**
  * @openapi
@@ -41,6 +42,6 @@ router.post("/login", login);
  *       401:
  *         description: Invalid or expired refresh token
  */
-router.post("/refresh", refresh);
+router.post("/refresh", authRateLimit, refresh);
 
 export default router;
