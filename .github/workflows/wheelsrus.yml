@@ -25,15 +25,15 @@ jobs:
             
         - name: dependency installation
           working-directory: ./Backend
-          run: npm ci
+          run: npm install
         
         - name: Running all the tets
           working-directory: ./Backend
-          run: npm run  test
+          run: npm run test
 
       
     build:
-        # needs: test
+        needs: test
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
@@ -63,9 +63,10 @@ jobs:
                 platforms: linux/amd64,linux/arm64 
                 push: true
                 tags: |
-                    ${{ secrets.DOCKERHUB_USERNAME }}/bitclip-backend:latest
-                    ${{ secrets.DOCKERHUB_USERNAME }}/bitclip-backend:${{ steps.build-info.outputs.version }}
+                    ${{ secrets.DOCKERHUB_USERNAME }}/WheelRUS-backend:latest
+                    ${{ secrets.DOCKERHUB_USERNAME }}/WheelRUS-backend:${{ steps.build-info.outputs.version }}
                 build-args: |
                   VERSION=${{ steps.build-info.outputs.version }}
                   BUILD_TIME=${{ steps.build-info.outputs.build_time }}
+            
       
