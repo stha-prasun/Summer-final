@@ -63,8 +63,8 @@ jobs:
                 platforms: linux/amd64,linux/arm64 
                 push: true
                 tags: |
-                    ${{ secrets.DOCKERHUB_USERNAME }}/WheelRUS-backend:latest
-                    ${{ secrets.DOCKERHUB_USERNAME }}/WheelRUS-backend:${{ steps.build-info.outputs.version }}
+                    ${{ secrets.DOCKERHUB_USERNAME }}/wheelrus-backend:latest
+                    ${{ secrets.DOCKERHUB_USERNAME }}/wheelrus-backend:${{ steps.build-info.outputs.version }}
                 build-args: |
                   VERSION=${{ steps.build-info.outputs.version }}
                   BUILD_TIME=${{ steps.build-info.outputs.build_time }}
