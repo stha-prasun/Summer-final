@@ -7,7 +7,7 @@ services:
     ports:
       - "5173:80"
     env_file:
-      - ./Frontend/.env
+      - .env.prod
   backend:
     build:
       context: .
@@ -16,7 +16,7 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - .env.dev
+      - .env.prod
   mongodb:
     image: mongo:7
     container_name: summer-mongodb

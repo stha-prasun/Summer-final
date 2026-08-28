@@ -55,6 +55,20 @@ jobs:
                 username: ${{ secrets.DOCKERHUB_USERNAME}}
                 password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+            - name: Build and push frontend image
+              uses: docker/build-push-action@v5
+              with:
+                context: .
+                file: docker/frontend/Dockerfile
+                platforms: linux/amd64,linux/arm64 
+                push: true
+                tags: |
+                    ${{ secrets.DOCKERHUB_USERNAME }}/wheelrus-frontend:latest
+                    ${{ secrets.DOCKERHUB_USERNAME }}/wheelrus-frontend:${{ steps.build-info.outputs.version }}
+                build-args: |
+                  VERSION=${{ steps.build-info.outputs.version }}
+                  BUILD_TIME=${{ steps.build-info.outputs.build_time }}
+
             - name: Build and push backend image
               uses: docker/build-push-action@v5
               with:
@@ -68,5 +82,27 @@ jobs:
                 build-args: |
                   VERSION=${{ steps.build-info.outputs.version }}
                   BUILD_TIME=${{ steps.build-info.outputs.build_time }}
+    # deploy:
+    #   needs: build
+    #   runs-on: wheelsrus
+    #   steps:  
+
+    #     - name: Checkout repo
+    #       uses: actions/checkout@v4
+    #       with: 
+    #         sparse-checkout: |
+    #           docker-compose.prod.yml
+    #         sparse-checkout-cone-mode: false
+      
+    #     - name: Log in to Dockerhub
+    #       uses: docker/login-action@v2
+    #       with:
+    #         username: ${{ secrets.DOCKERHUB_USERNAME}}
+    #         password: ${{ secrets.DOCKERHUB_TOKEN }}  
+        
+    #     - name: Deploying to a local server
+    #       run: |
+    #         echo "
+            
             
       
