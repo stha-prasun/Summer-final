@@ -60,7 +60,7 @@ jobs:
               with:
                 context: .
                 file: docker/frontend/Dockerfile
-                platforms: linux/amd64,linux/arm64 
+                platforms: linux/amd64
                 provenance: false
                 push: true
                 tags: |
@@ -75,7 +75,7 @@ jobs:
               with:
                 context: .
                 file: docker/backend/Dockerfile
-                platforms: linux/amd64,linux/arm64
+                platforms: linux/amd64
                 provenance: false
                 push: true
                 tags: |
