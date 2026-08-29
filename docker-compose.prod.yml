@@ -1,24 +1,26 @@
 services:
   frontend:
-    build:
-      context: .
-      dockerfile: ./docker/frontend/Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: ./docker/frontend/Dockerfile
+    image: sanrose27/wheelrus-frontend
     container_name: WheelsRUs_Frontend
     ports:
       - "5173:80"
     env_file:
       - .env.prod
   backend:
-    build:
-      context: .
-      dockerfile: ./docker/backend/Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: ./docker/backend/Dockerfile
+    image: sanrose27/wheelrus-backend
     container_name: WheelsRUs_Backend
     ports:
       - "3000:3000"
     env_file:
       - .env.prod
   mongodb:
-    image: mongo:7
+    image: mongo:latest
     container_name: summer-mongodb
     expose:
       - "27018"
@@ -51,3 +53,4 @@ services:
 volumes:
   mongodb_data:
   redis_data:
+  rabbitmq_data:
